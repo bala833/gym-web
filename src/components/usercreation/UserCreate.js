@@ -25,6 +25,7 @@ const UserCreation = () => {
     email: "",
     password: "",
     role_type: "",
+    id: 0,
   };
   const [dataValue, setDataValue] = useState(form_initial_value);
   const [from_toerror, setFrom_toerror] = useState(false);
@@ -40,6 +41,8 @@ const UserCreation = () => {
   console.log(startMinDate, "startMinDate");
   let history = useHistory();
   const { id: userid } = useParams();
+
+  console.log(userid, typeof parseInt(userid), "uuuuuuuuuuuuuu");
 
   const handleOnChange = (e) => {
     let name = e.target.name;
@@ -252,16 +255,33 @@ const UserCreation = () => {
       from_to: moment(dataValue.from_to).format("YYYY-MM-DD"),
       valid_to: moment(dataValue.valid_to).format("YYYY-MM-DD"),
       role_type: dataValue.role_type,
+      userid: userid,
     };
     console.log(payload);
 
     const response = await UserRegistration(payload);
-    if (response?.status === 201 && response?.data) {
-      history.push("/user-list");
-      console.log("user created successfully");
+    if (userid > 0) {
+      if (response?.status === 200 && response?.data) {
+        history.push("/user-list");
+        console.log("user created successfully");
+      } else {
+        console.error(response.data, "error HandleSubmit");
+      }
     } else {
-      console.error(response.data, "error HandleSubmit");
+      if (response?.status === 201 && response?.data) {
+        history.push("/user-list");
+        console.log("user created successfully");
+      } else {
+        console.error(response.data, "error HandleSubmit");
+      }
     }
+    // const response = await UserRegistration(payload);
+    // if (response?.status === StatusCode_ && response?.data) {
+    //   history.push("/user-list");
+    //   console.log("user created successfully");
+    // } else {
+    //   console.error(response.data, "error HandleSubmit");
+    // }
   };
 
   const GetUser = async () => {
@@ -358,6 +378,7 @@ const UserCreation = () => {
                     onChange={handleOnChange}
                     onBlur={handleMouseUp}
                     style={{ marginBottom: emailError ? "0px" : "15px" }}
+                    disabled={userid > 0 ? "disabled" : ""}
                   />
                   {emailError && (
                     <span
@@ -574,22 +595,41 @@ const UserCreation = () => {
       </div>
 
       <div className="d-flex justify-content-center mt-5">
-        <button
-          className="btn btn-success"
-          onClick={HandleSubmit}
-          disabled={
-            !dataValue.phone || !dataValue.email || userid > 0
-              ? !dataValue.email
-              : !dataValue.password ||
-                !dataValue.role_type ||
-                !dataValue.from_to ||
-                !dataValue.valid_to ||
-                !dataValue.first_name ||
-                !dataValue.last_name
-          }
-        >
-          Submit
-        </button>
+        {userid > 0 ? (
+          <button
+            className="btn btn-success"
+            onClick={HandleSubmit}
+            disabled={
+              !dataValue.phone ||
+              !dataValue.email ||
+              !dataValue.role_type ||
+              !dataValue.from_to ||
+              !dataValue.first_name ||
+              !dataValue.valid_to ||
+              !dataValue.last_name
+            }
+          >
+            Submit
+          </button>
+        ) : (
+          <button
+            className="btn btn-success"
+            onClick={HandleSubmit}
+            disabled={
+              !dataValue.phone ||
+              !dataValue.email ||
+              !dataValue.role_type ||
+              !dataValue.from_to ||
+              !dataValue.first_name ||
+              !dataValue.valid_to ||
+              !dataValue.last_name ||
+              !dataValue.password
+            }
+          >
+            Submit
+          </button>
+        )}
+
         <div>&nbsp;</div>
         <div className="btn btn-secondary mr-1">
           <Link to="/user-list">Cancel</Link>
