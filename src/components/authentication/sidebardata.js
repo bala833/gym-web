@@ -14,6 +14,7 @@ export const SidebarData = [
   {
     title: "Account",
     icon: <GroupOutlinedIcon />,
+    subManusLists: ["profile"],
     subNav: [
       {
         title: "Profile",

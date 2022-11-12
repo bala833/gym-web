@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from "react";
 import { IconButton } from "@mui/material";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -48,15 +54,26 @@ import "./header.css";
 const Sidebar = ({ item }) => {
   const [subnav, setSubnav] = useState(false);
   const [activemenu, setactivemenu] = useState("");
+  const [menuName, setMenuName] = useState("profile");
+  const [menuColor, setMenuColor] = useState("profile");
 
-  const showSubnav = () => setSubnav(true);
-  const closeSubnav = () => setSubnav(false);
+  const showSubnav = useCallback(
+    () => [setMenuName("asdfasdf"), setSubnav(true)],
+    [menuName, menuColor, subnav]
+  );
+  const closeSubnav = useCallback(
+    () => [setMenuName("jhggjhgg"), setSubnav(false)],
+    [menuName, menuColor, subnav]
+  );
+
+  const changeValueSelected = () => {
+    setMenuName("asdfasdfasfd");
+  };
 
   const handleActiveMenu = () => {
     setSubnav(true);
   };
   useEffect(() => {
-    setactivemenu("profile");
     console.log("balaaaaaaaa");
   }, []);
 
@@ -70,10 +87,16 @@ const Sidebar = ({ item }) => {
             <Link
               to={item?.path ? item?.path : "/bala"}
               className="warpsidebar-link"
+              key={item.title}
             >
               <div
                 className="d-flex  align-items-center  "
-                style={{ marginLeft: "-1px" }}
+                style={{
+                  marginLeft: "-1px",
+                  color: item?.subManusLists?.includes(menuColor)
+                    ? "yellow"
+                    : "",
+                }}
               >
                 <span className="warpsidebar-icon">{item.icon}</span>
                 <span className="warpsidebr-text">{item.title}</span>
@@ -82,63 +105,43 @@ const Sidebar = ({ item }) => {
           ) : (
             <div
               className="d-flex  align-items-center  "
-              style={{ marginLeft: "-1px" }}
+              style={{
+                marginLeft: "-1px",
+                color: item?.subManusLists?.includes(menuColor) ? "yellow" : "",
+              }}
+              key={item.title}
             >
               <span className="warpsidebar-icon">{item.icon}</span>
               <span className="warpsidebr-text">{item.title}</span>
             </div>
           )}
-          {subnav &&
-            item.subNav?.map((item, index) => {
+          {/* 1 child level  */}
+          {(item?.subManusLists?.includes(menuName) ? !subnav : subnav) &&
+            item.subNav?.map((subitem, index) => {
               return (
                 <>
-                  {activemenu === "profile" ? (
-                    <Link
-                      className="warpsubsidebar-link"
-                      to={item.path}
-                      key={index}
-                    >
-                      <div className="child-list mt-3" key={index}>
-                        <div
-                          className="d-flex  align-items-center  "
-                          style={{ marginLeft: "-1px" }}
-                        >
-                          {item?.icon && (
-                            <span className="warpsub-icon">{item.icon}</span>
-                          )}
-                          <span
-                            className="warpsub-text"
-                            style={{
-                              color:
-                                item?.activename == "profile"
-                                  ? "yellow"
-                                  : "gray",
-                            }}
-                          >
-                            {item.title}
-                          </span>
-                        </div>
+                  <Link
+                    className="warpsubsidebar-link"
+                    to={subitem.path}
+                    key={index}
+                  >
+                    <div className="child-list mt-3" key={index}>
+                      <div
+                        className="d-flex  align-items-center  "
+                        style={{
+                          marginLeft: "-1px",
+                          color: subitem.activename === menuColor ? "red" : "",
+                        }}
+                      >
+                        {subitem?.icon && (
+                          <span className="warpsub-icon">{subitem.icon}</span>
+                        )}
+                        <span className="warpsub-text">
+                          {subitem.title} {subitem.activename}
+                        </span>
                       </div>
-                    </Link>
-                  ) : (
-                    <Link
-                      className="warpsubsidebar-link"
-                      to={item.path}
-                      key={index}
-                    >
-                      <div className="child-list mt-3" key={index}>
-                        <div
-                          className="d-flex  align-items-center  "
-                          style={{ marginLeft: "-1px" }}
-                        >
-                          {item?.icon && (
-                            <span className="warpsub-icon">{item.icon}</span>
-                          )}
-                          <span className="warpsub-text">{item.title}</span>
-                        </div>
-                      </div>
-                    </Link>
-                  )}
+                    </div>
+                  </Link>
                 </>
               );
             })}
