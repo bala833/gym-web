@@ -29,8 +29,23 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { GetUserByToken, Logout } from "../../Api/services";
+import { base_url, GetUserByToken, Logout } from "../../Api/services";
 import { GlobalGymInfo } from "../../context";
+
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import "./header.css";
+import Sidebar from "./sidebar";
+import { SidebarData } from "./sidebardata";
 
 const Header = () => {
   const { logout } = useContext(GlobalGymInfo);
@@ -59,18 +74,16 @@ const Header = () => {
 
   const GetUserDetail = async () => {
     const response = await GetUserByToken();
-    if (response?.status === 200 && response?.data) {
+    if (response?.status === 400 && response?.data) {
       if (response.data == "Invalid Token") {
         localStorage.removeItem("token");
-        logout();
-        console.log("Invalid Token");
+        Logout();
+        console.log("Invalid Token", response?.data);
         history.push("/");
-      } else {
-        setUserDetail(response.data);
-        console.log(response.data, "oooooooooooooo");
       }
     } else {
-      console.error("error GetUserDetail");
+      setUserDetail(response.data);
+      console.log(response.data, "oooooooooooooo");
     }
   };
 
@@ -89,77 +102,37 @@ const Header = () => {
       console.error("error LogoutUser");
     }
   };
+  const GoForAdmin = async () => {
+    history.push(window.open(`${base_url}admin`, "_blank"));
+  };
+  const GoForAccount = async () => {
+    history.push("/account");
+  };
 
-  return (
-    <div>
-      <AppBar position="static" style={{ backgroundColor: "rgb(247 250 255)" }}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              LOGO1
-            </Typography>
+  const [subnav, setSubnav] = useState(false);
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-            {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+  const showSubnav = () => setSubnav(true);
+  const closeSubnav = () => setSubnav(false);
+
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 240 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+      style={{ overflow: "hidden" }}
+    >
+      <div className="row" style={{ marginBottom: "32px" }}>
+        <div className="">
+          <AdbIcon />
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
-              display: { xs: "block", md: "none" },
-              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
@@ -167,44 +140,88 @@ const Header = () => {
               textDecoration: "none",
             }}
           >
-            LOGO2
-          </Typography> */}
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {/* {pages.map((page) => ( */}
-              <Link to="/" style={{ color: "black", textDecoration: "none" }}>
-                <Button
-                  key="dashabord"
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  Dashboard
-                </Button>
-              </Link>
-              <Link
-                to="/user-list"
-                style={{ color: "black", textDecoration: "none" }}
-              >
-                <Button
-                  key="user"
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  User
-                </Button>
-              </Link>
-              {/* ))} */}
-            </Box>
+            LOGO
+          </Typography>
+        </div>
+      </div>
+      <Divider />
 
-            <Box sx={{ flexGrow: 0 }}>
-              <span
+      <div className="container-fluid sidbar-content">
+        <div className="mt-4">
+          {SidebarData?.map((item, index) => {
+            return <Sidebar item={item} key={index} />;
+          })}
+        </div>
+      </div>
+    </Box>
+  );
+
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+  return (
+    <div>
+      <AppBar position="static" style={{ backgroundColor: "rgb(247 250 255)" }}>
+        <Toolbar disableGutters>
+          <Grid item xs={1}>
+            <Link className="warpsidebar-link" to="/">
+              <div className="d-flex justify-content-center">
+                <h6 style={{ color: "black" }}>LOGO</h6>
+              </div>
+            </Link>
+          </Grid>
+          <Grid item xs={1}>
+            <div>
+              <React.Fragment key={"left"}>
+                {/* <Button onClick={toggleDrawer("left", true)}>{"left"}</Button> */}
+                <IconButton size="large" onClick={toggleDrawer("left", true)}>
+                  <MenuIcon />
+                </IconButton>
+                <SwipeableDrawer
+                  anchor={"left"}
+                  open={state["left"]}
+                  onClose={toggleDrawer("left", false)}
+                  onOpen={toggleDrawer("left", true)}
+                >
+                  {list("left")}
+                </SwipeableDrawer>
+              </React.Fragment>
+            </div>
+          </Grid>
+
+          <Grid item xs={8}></Grid>
+          <Grid item xs={2}>
+            {" "}
+            <div
+              className="d-flex justify-content-end mr-1"
+              style={{ marginRight: "12px" }}
+            >
+              <h6
                 style={{ color: "black", marginRight: "5px" }}
                 className="mr-1"
               >
                 {userDetail.first_name}
-              </span>
+              </h6>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
+                    style={{ width: 45, height: 45 }}
+                    // sx={{ width: 56, height: 56 }}
                     alt={userDetail.first_name?.toUpperCase()}
                     src="/static/images/avatar/2.jpg"
                   />
@@ -226,20 +243,21 @@ const Header = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {/* {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))} */}
-                <MenuItem key="Logout" onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">
+                <MenuItem key="admin" onClick={handleCloseUserMenu}>
+                  <Typography textalign="center">
+                    <span onClick={GoForAdmin}>Admin</span>
+                  </Typography>
+                </MenuItem>
+
+                <MenuItem key="logout" onClick={handleCloseUserMenu}>
+                  <Typography textalign="center">
                     <span onClick={LogoutUser}>Logout</span>
                   </Typography>
                 </MenuItem>
               </Menu>
-            </Box>
-          </Toolbar>
-        </Container>
+            </div>
+          </Grid>
+        </Toolbar>
       </AppBar>
     </div>
   );

@@ -1,6 +1,8 @@
 import axios from "axios";
-const base_url1 = process.env.REACT_APP_URL;
-const base_url = "http://127.0.0.1:8000/";
+export const base_url =
+  process.env.REACT_APP_URL || "https://sushil.pythonanywhere.com/";
+// console.log(base_url, "asdfasdfasdfasdf");
+// const base_url = "http://127.0.0.1:8000/";
 
 export const GetUserByToken = async () => {
   const signToken = await localStorage.getItem("token");

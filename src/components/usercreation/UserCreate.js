@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
-import "../../App.css";
 import { useHistory } from "react-router-dom";
 
 import DateFnsUtils from "@date-io/date-fns";
@@ -12,6 +11,8 @@ import { MuiPickersUtilsProvider, DatePicker } from "material-ui-pickers";
 import moment from "moment";
 import { GetUserById, UserRegistration } from "../../Api/services";
 import { useParams } from "react-router-dom";
+import "./usercreation.css";
+import { DateFilter } from "../../common/datefilter/validateDate";
 
 const UserCreation = () => {
   const form_initial_value = {
@@ -38,11 +39,10 @@ const UserCreation = () => {
   const [roletypeError, setRoletypeError] = useState(false);
   const [startMinDate, setFromDate] = useState(new Date());
   const [startvalidDate, setvalidDate] = useState(new Date());
+  const [validfromError, setValidfromError] = useState(false);
   console.log(startMinDate, "startMinDate");
   let history = useHistory();
   const { id: userid } = useParams();
-
-  console.log(userid, typeof parseInt(userid), "uuuuuuuuuuuuuu");
 
   const handleOnChange = (e) => {
     let name = e.target.name;
@@ -156,6 +156,7 @@ const UserCreation = () => {
       } else {
         setValid_toerror(false);
         setDataValue({ ...dataValue, [name]: DateFormate });
+        setValidfromError(DateFilter(DateFormate));
         // setStartDate(value)
       }
     }
@@ -289,6 +290,7 @@ const UserCreation = () => {
     const response = await GetUserById(payload);
     if (response?.status === 200 && response?.data) {
       setDataValue(response.data);
+      setValidfromError(DateFilter(response.data.valid_to));
     } else {
       console.error(response.data, "error GetUser");
     }
@@ -303,6 +305,7 @@ const UserCreation = () => {
     // else {
     //   setIsLoaded(true);
     // }
+    // DateFilter(dataValue.from_to, dataValue.valid_to);
   }, []);
 
   return (
@@ -571,6 +574,7 @@ const UserCreation = () => {
                       value={dataValue.valid_to ? dataValue.valid_to : null}
                       format="dd-MM-yyyy"
                       disabled={dataValue.from_to ? false : true}
+                      minDateMessage="Should be greater than or equal to today's date"
                       onChange={(date) => changeDateHandler(date, "valid_to")}
                       onClickCapture={(date) =>
                         dataValue.from_to
@@ -606,7 +610,8 @@ const UserCreation = () => {
               !dataValue.from_to ||
               !dataValue.first_name ||
               !dataValue.valid_to ||
-              !dataValue.last_name
+              !dataValue.last_name ||
+              !validfromError
             }
           >
             Submit

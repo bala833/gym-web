@@ -23,14 +23,15 @@ import API from "../../context/API";
 import ReactPaginate from "react-paginate";
 import "../../App.css";
 import Header from "../authentication/header";
+import { base_url } from "../../Api/services";
 const columns = [
   { id: "id", label: "ID", minWidth: 170 },
   // { id: "UserName", label: "UserName", minWidth: 170 },
   { id: "Email", label: "Email", minWidth: 170 },
   { id: "Phone", label: "Phone", minWidth: 170 },
   { id: "Varified", label: "Varified", minWidth: 170 },
-  { id: "Active", label: "Active", minWidth: 170 },
-  { id: "SuperUser", label: "SuperUser", minWidth: 170 },
+  { id: "Status", label: "Status", minWidth: 170 },
+  { id: "Roles", label: "Roles", minWidth: 170 },
   { id: "Action", label: "Action", minWidth: 170 },
 ];
 
@@ -52,7 +53,7 @@ const UserList = () => {
   };
 
   const StudentListApi = () => {
-    API.get("http://127.0.0.1:8000/api/user-list/")
+    API.get(`${base_url}api/user-list/`)
       .then((response) => {
         if (response && response?.data) {
           setStudentlist(response.data.results);
@@ -65,17 +66,12 @@ const UserList = () => {
   };
 
   const FetchCommands = async (currentpage) => {
-    const res = await fetch(
-      `http://127.0.0.1:8000/api/user-list/?page=${currentpage}`
-    );
+    const res = await fetch(`${base_url}api/user-list/?page=${currentpage}`);
     const data = await res.json();
     return data;
   };
   const FetchCommandfilter = (currentpage, payload) => {
-    API.post(
-      `http://127.0.0.1:8000/api/user-filter/?page=${currentpage}`,
-      payload
-    )
+    API.post(`${base_url}api/user-filter/?page=${currentpage}`, payload)
       .then((response) => {
         if (response && response?.data) {
           setStudentlist(response.data.results);
@@ -111,7 +107,7 @@ const UserList = () => {
   const StudentListFilter = () => {
     if (!filter_.value) {
     } else {
-      API.post("http://127.0.0.1:8000/api/user-filter/", filter_)
+      API.post(`${base_url}api/user-filter/`, filter_)
         .then((response) => {
           if (response && response?.data) {
             setStudentlist(response.data.results);
@@ -247,13 +243,15 @@ const UserList = () => {
                             <TableCell>{row.email}</TableCell>
                             <TableCell>{row.phone}</TableCell>
                             <TableCell>
-                              {row.is_verified ? "True" : "False"}
+                              {row.is_verified ? "Yes" : "No"}
                             </TableCell>
                             <TableCell>
-                              {row.user.is_active ? "True" : "False"}
+                              {row.user.is_active ? "ACTIVE" : "INACTIVE"}
                             </TableCell>
                             <TableCell>
-                              {row.user.is_superuser ? "True" : "False"}
+                              {row.user.is_superuser
+                                ? "Super User"
+                                : "Customer"}
                             </TableCell>
                             <TableCell>
                               <div style={{ display: "flex" }} key={row.id}>

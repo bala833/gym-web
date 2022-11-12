@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -24,6 +24,8 @@ import { useHistory } from "react-router-dom";
 import Header from "./header";
 import { GlobalGymInfo } from "../../context";
 import Dashboard from "../dashbaord";
+import SwipeableTemporaryDrawer from "../sidbar/sidebar";
+import { LoginLoader } from "../loader/loader";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,6 +54,11 @@ const user_input = {
   borderInline: "1px blue",
 };
 
+export const loaderImp = () => {
+  setTimeout(() => {
+    <LoginLoader />;
+  }, 1000);
+};
 const Login = () => {
   const { Auth } = useContext(GlobalGymInfo);
 
@@ -59,7 +66,7 @@ const Login = () => {
   const [values, setValues] = useState({
     password: "",
   });
-  const [isdisabled, setIsdisabled] = useState(false);
+  const [loginLoader, setLoginLoader] = useState(false);
 
   const [useranme, setUseranme] = useState("");
   const [password, setPassword] = useState("");
@@ -85,7 +92,7 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const baseURL = "http://127.0.0.1:8000/";
+  const baseURL = "https://sushil.pythonanywhere.com/";
 
   const axiosInstance = axios.create({
     baseURL: `${baseURL}${"api"}`,
@@ -101,7 +108,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setIsdisabled(true);
+    setLoginLoader(true);
 
     axiosInstance
       .post(`login-user/`, {
@@ -119,7 +126,7 @@ const Login = () => {
             Auth(token_);
             setTimeout(function () {
               console.log(res.data, "ooooooooooooooooooooooooooo");
-              history.push("/");
+              history.push("/home");
             }, 2000);
           } else {
             console.log(res.data);
@@ -127,131 +134,128 @@ const Login = () => {
         },
         (error) => {
           console.log(error, "rrrrrrrrrrr");
+          setLoginLoader(false);
         }
       );
   };
-  const signToken = localStorage.getItem("token");
-  if (!signToken) {
-    return (
-      <Container
-        component="main"
-        maxWidth="xs"
-        style={{ backgroundColor: "white" }}
-      >
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Log In
-          </Typography>
-          <form className={classes.form} noValidate>
-            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-              <FormControl
-                sx={{ m: 1, width: "25ch" }}
-                style={{ width: "100%" }}
-                variant="outlined"
-              >
-                <OutlinedInput
-                  id="outlined-adornment-weight"
-                  value={useranme}
-                  placeholder="example@example.com"
-                  name="username"
-                  type="text"
-                  aria-describedby="outlined-weight-helper-text"
-                  inputProps={{
-                    "aria-label": "weight",
-                  }}
-                  style={{
-                    height: "50px",
-                    borderRadius: "10px",
-                    backgroundColor: "white",
-                  }}
-                  onChange={handleUsernameChange}
-                />
-              </FormControl>
-              <div style={{ paddingTop: "70px" }}></div>
-              <FormControl
-                sx={{ m: 1, width: "25ch" }}
-                style={{ width: "100%" }}
-                variant="outlined"
-              >
-                <OutlinedInput
-                  id="outlined-adornment-weight"
-                  value={password}
-                  placeholder="Password"
-                  name="password"
-                  type={values.showPassword ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {values.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  style={{
-                    height: "50px",
-                    borderRadius: "10px",
-                    backgroundColor: "none",
-                    borderStyle: "none",
-                  }}
-                  aria-describedby="outlined-weight-helper-text"
-                  inputProps={{
-                    "aria-label": "weight",
-                  }}
-                  onChange={handlePasswordChange}
-                />
-              </FormControl>
-            </Box>
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={handleSubmit}
-              disabled={!useranme || !password}
+  useEffect(() => {
+    const signToken = localStorage.getItem("token");
+    if (!signToken) {
+    } else {
+      history.push("/home");
+    }
+    console.log(loginLoader, "loginloader");
+  }, []);
+
+  return (
+    <Container
+      component="main"
+      maxWidth="xs"
+      style={{ backgroundColor: "white" }}
+    >
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Log In
+        </Typography>
+        <form className={classes.form} noValidate>
+          <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            <FormControl
+              sx={{ m: 1, width: "25ch" }}
+              style={{ width: "100%" }}
+              variant="outlined"
             >
-              Log In <span>&nbsp;&nbsp;</span>
-              {/* {isdisabled ? (
-            <>
-              <LoginLoader />
-            </>
-          ) : (
-            <></>
-          )} */}
-            </Button>
+              <OutlinedInput
+                id="username"
+                value={useranme}
+                placeholder="example@example.com"
+                name="username"
+                type="text"
+                aria-describedby="outlined-weight-helper-text"
+                inputProps={{
+                  "aria-label": "weight",
+                }}
+                style={{
+                  height: "50px",
+                  borderRadius: "10px",
+                  backgroundColor: "white",
+                }}
+                onChange={handleUsernameChange}
+              />
+            </FormControl>
+            <div style={{ paddingTop: "70px" }}></div>
+            <FormControl
+              sx={{ m: 1, width: "25ch" }}
+              style={{ width: "100%" }}
+              variant="outlined"
+            >
+              <OutlinedInput
+                id="password"
+                value={password}
+                placeholder="Password"
+                name="password"
+                type={values.showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                style={{
+                  height: "50px",
+                  borderRadius: "10px",
+                  backgroundColor: "none",
+                  borderStyle: "none",
+                }}
+                aria-describedby="outlined-weight-helper-text"
+                inputProps={{
+                  "aria-label": "weight",
+                }}
+                onChange={handlePasswordChange}
+              />
+            </FormControl>
+          </Box>
 
-            <Grid container>
-              <Grid item xs>
-                {/* <Link to={FORGETPASSWORD_EMAIL_PATH} variant="body2"> */}
-                Forgot password?
-                {/* </Link> */}
-              </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={handleSubmit}
+            disabled={!useranme || !password || loginLoader}
+          >
+            Log In <span>&nbsp;&nbsp;</span>
+            {loginLoader ? (
+              <>
+                <LoginLoader />
+              </>
+            ) : (
+              <></>
+            )}
+          </Button>
+
+          <Grid container>
+            <Grid item xs>
+              {/* <Link to={FORGETPASSWORD_EMAIL_PATH} variant="body2"> */}
+              Forgot password?
+              {/* </Link> */}
             </Grid>
-          </form>
-        </div>
-        <div style={{ paddingTop: "10px" }}></div>
-      </Container>
-    );
-  } else {
-    return (
-      <>
-        <Header />
-        <Dashboard />
-      </>
-    );
-  }
+          </Grid>
+        </form>
+      </div>
+      <div style={{ paddingTop: "10px" }}></div>
+    </Container>
+  );
 };
 
 export default Login;

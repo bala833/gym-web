@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import { GymProvider } from "./context";
+require("react-web-vector-icons/fonts");
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(

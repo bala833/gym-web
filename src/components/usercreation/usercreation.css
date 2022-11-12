@@ -1,0 +1,91 @@
+.input-search-box {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-shadow: 0 0 4px #dcdcdc;
+}
+
+.custom-input {
+  display: block;
+  width: 100%;
+  padding: 0.23rem 0.75rem;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-family: monospace;
+  box-shadow: 0px 0px 2px 0px #a4a4ff;
+  margin-bottom: 0px;
+}
+
+/* .custom-input:active{ border-color:#32a1cd; } */
+
+input:focus {
+  outline: none !important;
+  border-color: rgb(245, 242, 242);
+  box-shadow: 0px 0px 2px 0px #a4a4ff;
+  border: 1px solid #ced4da;
+}
+
+.custom-label,
+.MuiInputLabel-formControl {
+  font-family: monospace !important;
+  font-size: 15px !important;
+}
+.custom-header {
+  font-family: monospace;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.form-check-input:focus {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.form-switch .form-check-input {
+  width: 45px !important;
+  height: 21px !important;
+  margin-left: 0px !important;
+  transition: background-position 0.4s ease-in-out;
+}
+
+.form-switch {
+  padding-left: 0px !important;
+}
+
+.custom-role-dropdown {
+  width: 80%;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  box-shadow: 0px 0px 2px 0px #a4a4ff;
+}
+
+.custom-role-dropdown:focus {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.MuiInputBase-input {
+  font-family: monospace !important;
+}
