@@ -24,23 +24,18 @@ function App() {
         />
         <ProtectedRoute
           exact
-          path="/user-creation/:id"
+          path="/user/:id"
           component={UserCreation}
           auth={isAuth}
         />
         <ProtectedRoute
           exact
-          path="/update-user/:id"
+          path="/user/:id"
           component={UserCreation}
           auth={isAuth}
         />
 
-        <ProtectedRoute
-          exact
-          path="/user-list"
-          component={UserList}
-          auth={isAuth}
-        />
+        <ProtectedRoute exact path="/user" component={UserList} auth={isAuth} />
         <ProtectedRoute
           exact
           path="/account"

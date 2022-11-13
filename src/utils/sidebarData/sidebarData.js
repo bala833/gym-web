@@ -14,13 +14,13 @@ export const SidebarData = [
   {
     title: "Account",
     icon: <GroupOutlinedIcon />,
-    subManusLists: ["profile"],
+    subManusLists: ["account"],
     subNav: [
       {
         title: "Profile",
         icon: <ManageAccountsOutlinedIcon />,
         path: "/account",
-        activename: "profile",
+        activename: "account",
       },
     ],
   },
@@ -33,7 +33,7 @@ export const SidebarData = [
       {
         title: "User",
         icon: <PermIdentityOutlinedIcon />,
-        path: "/user-list",
+        path: "/user",
         activename: "user",
       },
     ],
@@ -42,6 +42,7 @@ export const SidebarData = [
     title: "Team",
     path: "/team",
     icon: <DashboardIcon />,
+    subManusLists: ["team"],
   },
   {
     title: "Razor Pay",

@@ -22,7 +22,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import API from "../../context/API";
 import ReactPaginate from "react-paginate";
 import "../../App.css";
-import Header from "../authentication/header";
+import Header from "../header/header";
 import { base_url } from "../../Api/services";
 const columns = [
   { id: "id", label: "ID", minWidth: 170 },
@@ -153,7 +153,7 @@ const UserList = () => {
       <div className="row mb-3 mx-2">
         <div className="col-md-3 mt-2">
           <Link
-            to="/user-creation/0"
+            to="/user/0"
             className="btn btn-primary"
             style={{ whiteSpace: "nowrap" }}
           >
@@ -266,7 +266,7 @@ const UserList = () => {
                                       }}
                                     >
                                       <Link
-                                        to={`/update-user/${row.user.id}`}
+                                        to={`/user/${row.user.id}`}
                                         style={{ color: "black" }}
                                         key={row.user.id}
                                       >

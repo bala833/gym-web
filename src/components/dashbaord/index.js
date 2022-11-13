@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "../authentication/header";
+import Header from "../header/header";
 
 const Dashboard = () => {
   const [totalUser, setTotalUser] = useState(0);

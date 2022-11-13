@@ -21,10 +21,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Header from "./header";
 import { GlobalGymInfo } from "../../context";
 import Dashboard from "../dashbaord";
-import SwipeableTemporaryDrawer from "../sidbar/sidebar";
+// import SwipeableTemporaryDrawer from "../sideBar/sidebar";
 import { LoginLoader } from "../loader/loader";
 
 const useStyles = makeStyles((theme) => ({

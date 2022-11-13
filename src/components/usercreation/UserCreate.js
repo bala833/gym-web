@@ -263,14 +263,14 @@ const UserCreation = () => {
     const response = await UserRegistration(payload);
     if (userid > 0) {
       if (response?.status === 200 && response?.data) {
-        history.push("/user-list");
+        history.push("/user");
         console.log("user created successfully");
       } else {
         console.error(response.data, "error HandleSubmit");
       }
     } else {
       if (response?.status === 201 && response?.data) {
-        history.push("/user-list");
+        history.push("/user");
         console.log("user created successfully");
       } else {
         console.error(response.data, "error HandleSubmit");
@@ -637,7 +637,7 @@ const UserCreation = () => {
 
         <div>&nbsp;</div>
         <div className="btn btn-secondary mr-1">
-          <Link to="/user-list">Cancel</Link>
+          <Link to="/user">Cancel</Link>
         </div>
       </div>
     </>

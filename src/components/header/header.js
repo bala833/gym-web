@@ -29,9 +29,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { base_url, GetUserByToken, Logout } from "../../Api/services";
-import { GlobalGymInfo } from "../../context";
-
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -44,8 +41,10 @@ import MailIcon from "@mui/icons-material/Mail";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import "./header.css";
-import Sidebar from "./sidebar";
-import { SidebarData } from "./sidebardata";
+import SideBar from "../sideBar/sideBar";
+import { base_url, GetUserByToken, Logout } from "../../Api/services";
+import { GlobalGymInfo } from "../../context";
+import { SidebarData } from "../../utils/sidebarData/sidebarData";
 
 const Header = () => {
   const { logout } = useContext(GlobalGymInfo);
@@ -113,6 +112,7 @@ const Header = () => {
 
   const showSubnav = () => setSubnav(true);
   const closeSubnav = () => setSubnav(false);
+  console.log(window.location.pathname, "balaaaaaaaa");
 
   const list = (anchor) => (
     <Box
@@ -149,7 +149,7 @@ const Header = () => {
       <div className="container-fluid sidbar-content">
         <div className="mt-4">
           {SidebarData?.map((item, index) => {
-            return <Sidebar item={item} key={index} />;
+            return <SideBar item={item} key={index} />;
           })}
         </div>
       </div>

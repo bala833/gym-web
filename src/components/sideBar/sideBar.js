@@ -5,57 +5,14 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { IconButton } from "@mui/material";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import { Link, Router } from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Input from "@material-ui/core/Input";
-import FilledInput from "@material-ui/core/FilledInput";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
+import "./sideBar.css";
 
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import { GetUserByToken, Logout } from "../../Api/services";
-import { GlobalGymInfo } from "../../context";
-
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import "./header.css";
-
-const Sidebar = ({ item }) => {
+const SideBar = ({ item }) => {
   const [subnav, setSubnav] = useState(false);
   const [activemenu, setactivemenu] = useState("");
-  const [menuName, setMenuName] = useState("profile");
-  const [menuColor, setMenuColor] = useState("profile");
+  const [menuName, setMenuName] = useState("home");
+  const [menuColor, setMenuColor] = useState("home");
 
   const showSubnav = useCallback(
     () => [setMenuName("asdfasdf"), setSubnav(true)],
@@ -73,15 +30,29 @@ const Sidebar = ({ item }) => {
   const handleActiveMenu = () => {
     setSubnav(true);
   };
+
+  const getCurrentLocation = () => {
+    const location = window.location.pathname;
+    var newStr = location.replace("/", "");
+    setMenuName(newStr);
+    setMenuColor(newStr);
+    // var data = str(newStr);
+    console.log(newStr, typeof newStr, "window.location.pathname");
+    console.log(typeof newStr, "typeof");
+  };
   useEffect(() => {
-    console.log("balaaaaaaaa");
+    getCurrentLocation();
   }, []);
 
   return (
     <>
       {/* parent */}
 
-      <div className="menu-list" onMouseLeave={closeSubnav}>
+      <div
+        className="menu-list"
+        onMouseLeave={closeSubnav}
+        onClick={getCurrentLocation}
+      >
         <div onMouseOverCapture={showSubnav}>
           {item.path ? (
             <Link
@@ -94,7 +65,7 @@ const Sidebar = ({ item }) => {
                 style={{
                   marginLeft: "-1px",
                   color: item?.subManusLists?.includes(menuColor)
-                    ? "yellow"
+                    ? "#32acc28f"
                     : "",
                 }}
               >
@@ -107,7 +78,9 @@ const Sidebar = ({ item }) => {
               className="d-flex  align-items-center  "
               style={{
                 marginLeft: "-1px",
-                color: item?.subManusLists?.includes(menuColor) ? "yellow" : "",
+                color: item?.subManusLists?.includes(menuColor)
+                  ? "#32acc28f"
+                  : "",
               }}
               key={item.title}
             >
@@ -130,15 +103,14 @@ const Sidebar = ({ item }) => {
                         className="d-flex  align-items-center  "
                         style={{
                           marginLeft: "-1px",
-                          color: subitem.activename === menuColor ? "red" : "",
+                          color:
+                            subitem.activename === menuColor ? "#32acc28f" : "",
                         }}
                       >
                         {subitem?.icon && (
                           <span className="warpsub-icon">{subitem.icon}</span>
                         )}
-                        <span className="warpsub-text">
-                          {subitem.title} {subitem.activename}
-                        </span>
+                        <span className="warpsub-text">{subitem.title}</span>
                       </div>
                     </div>
                   </Link>
@@ -151,4 +123,4 @@ const Sidebar = ({ item }) => {
   );
 };
 
-export default Sidebar;
+export default SideBar;
