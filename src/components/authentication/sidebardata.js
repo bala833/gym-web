@@ -27,6 +27,8 @@ export const SidebarData = [
   {
     title: "Settings",
     icon: <SettingsIcon />,
+    subManusLists: ["user"],
+
     subNav: [
       {
         title: "User",
@@ -44,19 +46,14 @@ export const SidebarData = [
   {
     title: "Razor Pay",
     icon: <DashboardIcon />,
+    subManusLists: ["razorpay"],
 
     subNav: [
       {
         title: "Razorpay",
         path: "/razorpay",
         icon: <DashboardIcon />,
-        activename: "dff",
-      },
-      {
-        title: "Message 2",
-        path: "/messages/message2",
-        icon: <DashboardIcon />,
-        activename: "ss",
+        activename: "razorpay",
       },
     ],
   },
