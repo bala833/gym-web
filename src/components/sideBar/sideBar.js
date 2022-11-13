@@ -36,7 +36,6 @@ const SideBar = ({ item }) => {
     var newStr = location.replace("/", "");
     setMenuName(newStr);
     setMenuColor(newStr);
-    // var data = str(newStr);
     console.log(newStr, typeof newStr, "window.location.pathname");
     console.log(typeof newStr, "typeof");
   };

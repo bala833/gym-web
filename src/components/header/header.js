@@ -112,7 +112,6 @@ const Header = () => {
 
   const showSubnav = () => setSubnav(true);
   const closeSubnav = () => setSubnav(false);
-  console.log(window.location.pathname, "balaaaaaaaa");
 
   const list = (anchor) => (
     <Box

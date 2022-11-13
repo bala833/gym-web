@@ -10,6 +10,7 @@ export const SidebarData = [
     title: "Dashbaord",
     path: "/",
     icon: <DashboardIcon />,
+    subManusLists: ["home"],
   },
   {
     title: "Account",
