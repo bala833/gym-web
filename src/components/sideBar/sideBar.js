@@ -6,20 +6,22 @@ import React, {
   useCallback,
 } from "react";
 import { Link, Router } from "react-router-dom";
+import { GlobalGymInfo } from "../../context";
 import "./sideBar.css";
 
 const SideBar = ({ item }) => {
+  const { selectedMenu, handlemenuSelected } = useContext(GlobalGymInfo);
   const [subnav, setSubnav] = useState(false);
   const [activemenu, setactivemenu] = useState("");
   const [menuName, setMenuName] = useState("home");
   const [menuColor, setMenuColor] = useState("home");
 
   const showSubnav = useCallback(
-    () => [setMenuName("asdfasdf"), setSubnav(true)],
+    () => [handlemenuSelected("asdfasdf"), setSubnav(true)],
     [menuName, menuColor, subnav]
   );
   const closeSubnav = useCallback(
-    () => [setMenuName("jhggjhgg"), setSubnav(false)],
+    () => [handlemenuSelected("jhggjhgg"), setSubnav(false)],
     [menuName, menuColor, subnav]
   );
 
@@ -36,8 +38,7 @@ const SideBar = ({ item }) => {
     var newStr = location.replace("/", "");
     setMenuName(newStr);
     setMenuColor(newStr);
-    console.log(newStr, typeof newStr, "window.location.pathname");
-    console.log(typeof newStr, "typeof");
+    handlemenuSelected(newStr);
   };
   useEffect(() => {
     getCurrentLocation();
@@ -63,12 +64,18 @@ const SideBar = ({ item }) => {
                 className="d-flex  align-items-center  "
                 style={{
                   marginLeft: "-1px",
-                  color: item?.subManusLists?.includes(menuColor)
-                    ? "#32acc28f"
-                    : "",
                 }}
               >
-                <span className="warpsidebar-icon">{item.icon}</span>
+                <span
+                  className="warpsidebar-icon"
+                  style={{
+                    color: item?.subManusLists?.includes(menuColor)
+                      ? "#32acc28f"
+                      : "",
+                  }}
+                >
+                  {item.icon}
+                </span>
                 <span className="warpsidebr-text">{item.title}</span>
               </div>
             </Link>
@@ -77,18 +84,24 @@ const SideBar = ({ item }) => {
               className="d-flex  align-items-center  "
               style={{
                 marginLeft: "-1px",
-                color: item?.subManusLists?.includes(menuColor)
-                  ? "#32acc28f"
-                  : "",
               }}
               key={item.title}
             >
-              <span className="warpsidebar-icon">{item.icon}</span>
+              <span
+                className="warpsidebar-icon"
+                style={{
+                  color: item?.subManusLists?.includes(menuColor)
+                    ? "#32acc28f"
+                    : "",
+                }}
+              >
+                {item.icon}
+              </span>
               <span className="warpsidebr-text">{item.title}</span>
             </div>
           )}
           {/* 1 child level  */}
-          {(item?.subManusLists?.includes(menuName) ? !subnav : subnav) &&
+          {(item?.subManusLists?.includes(selectedMenu) ? !subnav : subnav) &&
             item.subNav?.map((subitem, index) => {
               return (
                 <>
