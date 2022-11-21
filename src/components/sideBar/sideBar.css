@@ -67,3 +67,8 @@
   position: absolute;
   overflow: hidden auto;
 }
+
+.activeMenu {
+  color: #32acc28f;
+  background: #f8f1f1;
+}
