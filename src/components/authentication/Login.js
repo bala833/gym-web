@@ -124,7 +124,6 @@ const Login = () => {
             let token_ = localStorage.getItem("token");
             Auth(token_);
             setTimeout(function () {
-              console.log(res.data, "ooooooooooooooooooooooooooo");
               history.push("/home");
             }, 2000);
           } else {
@@ -144,7 +143,6 @@ const Login = () => {
     } else {
       history.push("/home");
     }
-    console.log(loginLoader, "loginloader");
   }, []);
 
   return (

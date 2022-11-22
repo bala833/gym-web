@@ -22,6 +22,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import API from "../../context/API";
 import ReactPaginate from "react-paginate";
 import "../../App.css";
+import "./userList.css";
 import Header from "../header/header";
 import { base_url } from "../../Api/services";
 const columns = [
@@ -128,7 +129,10 @@ const UserList = () => {
     setResetpagenumber(0);
     setTimeout(() => {
       setResetpagenumber(null);
-    }, 1000);
+    }, 200);
+    setTimeout(() => {
+      setResetpagenumber(0);
+    }, 200);
   };
 
   return (
@@ -316,26 +320,29 @@ const UserList = () => {
           </div>
         )}
         {count > 0 ? (
-          <div className="mx-0 mt-2 d-flex justify-content-center">
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              pageCount={Math.ceil(count / 1)}
-              marginPagesDisplayed={2}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination justify-content-center"}
-              pageClassName={"page-item"}
-              pageLinkClassName={"page-link"}
-              previousClassName={"page-item"}
-              previousLinkClassName={"page-link"}
-              nextClassName={"page-item"}
-              nextLinkClassName={"page-link"}
-              breakClassName={"page-item"}
-              breakLinkClassName={"page-item"}
-              activeClassName={"active"}
-              forcePage={resetpagenumber}
-            />
+          <div className="mx-0 mt-2 d-flex justify-content-end">
+            <div>
+              <ReactPaginate
+                previousLabel={"Previous"}
+                nextLabel={"Next"}
+                breakLabel={"..."}
+                pageCount={Math.ceil(count / 1)}
+                marginPagesDisplayed={2}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"nextPreviousbtn"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"nextPreviousbtn"}
+                nextLinkClassName={"page-link"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-item"}
+                activeClassName={"active"}
+                forcePage={resetpagenumber}
+              />
+            </div>
+            <div className="page-link">Limit</div>
           </div>
         ) : (
           <></>

@@ -25,14 +25,6 @@ const SideBar = ({ item }) => {
     [menuName, menuColor, subnav]
   );
 
-  const changeValueSelected = () => {
-    setMenuName("asdfasdfasfd");
-  };
-
-  const handleActiveMenu = () => {
-    setSubnav(true);
-  };
-
   const getCurrentLocation = () => {
     const location = window.location.pathname;
     var newStr = location.replace("/", "");
@@ -67,12 +59,9 @@ const SideBar = ({ item }) => {
                 }}
               >
                 <span
-                  className="warpsidebar-icon"
-                  style={{
-                    color: item?.subManusLists?.includes(menuColor)
-                      ? "#32acc28f"
-                      : "",
-                  }}
+                  className={`warpsidebar-icon ${
+                    item?.subManusLists?.includes(menuColor) ? "activeMenu" : ""
+                  }`}
                 >
                   {item.icon}
                 </span>
@@ -88,12 +77,9 @@ const SideBar = ({ item }) => {
               key={item.title}
             >
               <span
-                className="warpsidebar-icon"
-                style={{
-                  color: item?.subManusLists?.includes(menuColor)
-                    ? "#32acc28f"
-                    : "",
-                }}
+                className={`warpsidebar-icon ${
+                  item?.subManusLists?.includes(menuColor) ? "activeMenu" : ""
+                }`}
               >
                 {item.icon}
               </span>

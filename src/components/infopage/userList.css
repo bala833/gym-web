@@ -1,0 +1,26 @@
+.page-link {
+  border-radius: 54px;
+  background: #351f3c;
+  color: white;
+}
+
+.nextPreviousbtn:first-child .page-link {
+  border-top-left-radius: -1rem !important;
+  border-bottom-left-radius: -1rem !important;
+}
+
+.nextPreviousbtn.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  background-color: #fff;
+  border-color: #dee2e6;
+}
+
+.page-link {
+  margin-right: 1px;
+  margin-left: 1px;
+}
+
+.page-item:not(:first-child) .page-link {
+  margin-left: 1px;
+}

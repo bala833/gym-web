@@ -95,7 +95,7 @@ const Profile = () => {
                 <Avatar
                   alt="Bala"
                   style={{ width: 80, height: 80 }}
-                  src="/static/images/avatar/1.jpg"
+                  src={userDetail?.picture}
                 />
               </StyledBadge>
             </div>
@@ -117,7 +117,7 @@ const Profile = () => {
                 id="first_name"
                 name="first_name"
                 placeholder="First Name"
-                value={`First Name : ${userDetail.first_name}`}
+                value={`First Name : ${userDetail?.first_name}`}
                 disabled
                 style={{
                   width: "50%",
@@ -138,7 +138,7 @@ const Profile = () => {
                 id="last_name"
                 name="last_name"
                 placeholder="Last Name"
-                value={`Last Name : ${userDetail.last_name}`}
+                value={`Last Name : ${userDetail?.last_name}`}
                 disabled
                 style={{
                   width: "50%",
@@ -163,7 +163,7 @@ const Profile = () => {
                 id="email"
                 name="email"
                 placeholder="Email Name"
-                value={`Email : ${userDetail.email}`}
+                value={`Email : ${userDetail?.email}`}
                 disabled
                 style={{
                   width: "50%",
@@ -184,7 +184,7 @@ const Profile = () => {
                 id="phone"
                 name="phone"
                 placeholder="Phone Number"
-                value={`Phone : ${userDetail.phone}`}
+                value={`Phone : ${userDetail?.phone}`}
                 disabled
                 style={{
                   width: "50%",
@@ -210,8 +210,8 @@ const Profile = () => {
                 name="from_date"
                 placeholder="07-09-2022"
                 value={`From To : ${
-                  userDetail.from_to
-                    ? moment(userDetail.from_to).format("DD-MM-YYYY")
+                  userDetail?.from_to
+                    ? moment(userDetail?.from_to).format("DD-MM-YYYY")
                     : ""
                 }`}
                 format="dd-MM-yyyy"
@@ -236,7 +236,7 @@ const Profile = () => {
                 name="valid_date"
                 value={`Valid To : ${
                   userDetail?.valid_to
-                    ? moment(userDetail.valid_to).format("DD-MM-YYYY")
+                    ? moment(userDetail?.valid_to).format("DD-MM-YYYY")
                     : ""
                 }`}
                 format="dd-MM-yyyy"
@@ -255,15 +255,19 @@ const Profile = () => {
             <select
               id="role_dropdown"
               className="btn btn dropdown-toggle custom-role-dropdown"
-              value="Super User"
-              placeholder="Select Role"
+              value={userDetail?.role_type}
+              placeholder={userDetail?.role_type}
               disabled
               style={{
                 width: "50%",
               }}
             >
-              <option className="dropdown-item" value="Super User" selected>
-                Super User
+              <option
+                className="dropdown-item"
+                value={userDetail?.role_type}
+                selected
+              >
+                {userDetail?.role_type}
               </option>
             </select>
           </div>

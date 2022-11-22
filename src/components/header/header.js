@@ -222,7 +222,7 @@ const Header = () => {
                     style={{ width: 45, height: 45 }}
                     // sx={{ width: 56, height: 56 }}
                     alt={userDetail.first_name?.toUpperCase()}
-                    src="/static/images/avatar/2.jpg"
+                    src={userDetail?.picture}
                   />
                 </IconButton>
               </Tooltip>
