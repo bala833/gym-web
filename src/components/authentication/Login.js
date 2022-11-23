@@ -23,6 +23,9 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { GlobalGymInfo } from "../../context";
 import Dashboard from "../dashbaord";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // import SwipeableTemporaryDrawer from "../sideBar/sidebar";
 import { LoginLoader } from "../loader/loader";
 
