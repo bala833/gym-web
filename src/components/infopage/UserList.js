@@ -26,7 +26,7 @@ import "./userList.css";
 import Header from "../header/header";
 import { base_url } from "../../Api/services";
 const columns = [
-  { id: "id", label: "ID", minWidth: 170 },
+  // { id: "id", label: "ID", minWidth: 170 },
   // { id: "UserName", label: "UserName", minWidth: 170 },
   { id: "Email", label: "Email", minWidth: 170 },
   { id: "Phone", label: "Phone", minWidth: 170 },
@@ -232,7 +232,7 @@ const UserList = () => {
                           <></>
                         ) : (
                           <>
-                            <TableCell>{row.id}</TableCell>
+                            {/* <TableCell>{row.id}</TableCell> */}
                             {/* <TableCell>
                               {row.user.username.length < 10 ? (
                                 row.user.username
