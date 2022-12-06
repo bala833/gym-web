@@ -4,6 +4,8 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import { GymProvider } from "./context";
+import { ToastContainer, toast } from "react-toastify";
+
 require("react-web-vector-icons/fonts");
 
 const rootElement = document.getElementById("root");
@@ -11,6 +13,7 @@ ReactDOM.render(
   <React.StrictMode>
     <GymProvider>
       <App />
+      <ToastContainer />
     </GymProvider>
   </React.StrictMode>,
   rootElement

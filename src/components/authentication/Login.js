@@ -23,11 +23,11 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { GlobalGymInfo } from "../../context";
 import Dashboard from "../dashbaord";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
 
 // import SwipeableTemporaryDrawer from "../sideBar/sidebar";
 import { LoginLoader } from "../loader/loader";
+import { ToastMessage } from "../../utils/toastMessage/toast";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -129,6 +129,8 @@ const Login = () => {
             setTimeout(function () {
               history.push("/home");
             }, 2000);
+            ToastMessage("success", "Successfully logged in");
+            console.log("toast message is workign fine");
           } else {
             console.log(res.data);
           }

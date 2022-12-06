@@ -45,6 +45,7 @@ import SideBar from "../sideBar/sideBar";
 import { base_url, GetUserByToken, Logout } from "../../Api/services";
 import { GlobalGymInfo } from "../../context";
 import { SidebarData } from "../../utils/sidebarData/sidebarData";
+import { ToastMessage } from "../../utils/toastMessage/toast";
 
 const Header = () => {
   const { logout } = useContext(GlobalGymInfo);
@@ -95,6 +96,7 @@ const Header = () => {
     if (response?.status === 200 && response?.data) {
       localStorage.removeItem("token");
       logout();
+      ToastMessage("success", "Successfully Logged out");
       console.log("Logout Successfull");
       history.push("/");
     } else {
