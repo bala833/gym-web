@@ -19,12 +19,19 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Edit from "@material-ui/icons/Edit";
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import API from "../../context/API";
 import ReactPaginate from "react-paginate";
 import "../../App.css";
 import "./userList.css";
 import Header from "../header/header";
 import { base_url } from "../../Api/services";
+
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+
 const columns = [
   // { id: "id", label: "ID", minWidth: 170 },
   // { id: "UserName", label: "UserName", minWidth: 170 },
@@ -43,6 +50,7 @@ const UserList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(1);
   const [studentList, setStudentlist] = useState([]);
   const [resetpagenumber, setResetpagenumber] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const filter_initial_value = {
     value: "",
@@ -51,6 +59,14 @@ const UserList = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   const StudentListApi = () => {
@@ -250,7 +266,28 @@ const UserList = () => {
                               {row.is_verified ? "Yes" : "No"}
                             </TableCell>
                             <TableCell>
-                              {row.user.is_active ? "ACTIVE" : "INACTIVE"}
+                              <div
+                                style={{
+                                  background: "#ffefef",
+                                  minHeight: "23px",
+                                  borderRadius: "22px",
+                                  width: "86px",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    height: "9px",
+                                    width: "9px",
+                                    backgroundColor: "green ",
+                                    borderRadius: "50%",
+                                    display: "inline-block",
+                                    margin: "7px 8px -1px 12px",
+                                  }}
+                                ></span>
+                                <span style={{ fontSize: "12px" }}>
+                                  {row.user.is_active ? "Active" : "Inactive"}
+                                </span>
+                              </div>
                             </TableCell>
                             <TableCell>
                               {row.user.is_superuser
@@ -259,7 +296,58 @@ const UserList = () => {
                             </TableCell>
                             <TableCell>
                               <div style={{ display: "flex" }} key={row.id}>
-                                <Fragment key={row.id}>
+                                <IconButton sx={{ p: 0 }}>
+                                  <MoreHorizIcon onClick={handleOpenUserMenu} />
+                                </IconButton>
+                                <Menu
+                                  sx={{ mt: "30px", ml: "20px" }}
+                                  id="menu-appbar"
+                                  anchorEl={anchorElUser}
+                                  anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                  }}
+                                  keepMounted
+                                  transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                  }}
+                                  open={Boolean(anchorElUser)}
+                                  onClose={handleCloseUserMenu}
+                                >
+                                  <MenuItem
+                                    key="Edit"
+                                    onClick={handleCloseUserMenu}
+                                  >
+                                    <Typography textalign="center">
+                                      <Link
+                                        to={`/user/${row.user.id}`}
+                                        style={{ color: "black" }}
+                                        key={row.user.id}
+                                      >
+                                        <span>Edit</span>
+                                      </Link>
+                                    </Typography>
+                                  </MenuItem>
+
+                                  <MenuItem
+                                    key="delete"
+                                    onClick={handleCloseUserMenu}
+                                  >
+                                    <Typography textalign="center">
+                                      <span>Delete</span>
+                                    </Typography>
+                                  </MenuItem>
+                                  <MenuItem
+                                    key="clone"
+                                    onClick={handleCloseUserMenu}
+                                  >
+                                    <Typography textalign="center">
+                                      <span>Clone</span>
+                                    </Typography>
+                                  </MenuItem>
+                                </Menu>
+                                {/* <Fragment key={row.id}>
                                   <Tooltip title="Update">
                                     <IconButton
                                       arial-label="Update"
@@ -293,7 +381,7 @@ const UserList = () => {
                                       <DeleteOutlined />
                                     </IconButton>
                                   </Tooltip>
-                                </Fragment>
+                                </Fragment> */}
                               </div>
                             </TableCell>
                           </>
