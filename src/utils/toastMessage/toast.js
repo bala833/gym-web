@@ -18,5 +18,7 @@ export function ToastMessage(messageType, message, position = "top-right") {
       return toast.success(message, controlToast);
     case "error":
       return toast.error(message, controlToast);
+    case "warn":
+      return toast.warn(message, controlToast);
   }
 }
