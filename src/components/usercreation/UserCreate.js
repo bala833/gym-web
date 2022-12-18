@@ -13,6 +13,7 @@ import { GetUserById, UserRegistration } from "../../Api/services";
 import { useParams } from "react-router-dom";
 import "./usercreation.css";
 import { DateFilter } from "../../common/datefilter/validateDate";
+import {ToastMessage} from "../../utils/toastMessage/toast"
 
 const UserCreation = () => {
   const form_initial_value = {
@@ -292,7 +293,12 @@ const UserCreation = () => {
       setDataValue(response.data);
       setValidfromError(DateFilter(response.data.valid_to));
     } else {
-      console.error(response.data, "error GetUser");
+      if (response.status === 403 && response.data.detail === 'You do not have permission to perform this action.'){
+        ToastMessage("error", 'You do not have permission to perform this action.')
+        history.push("/user");
+      }
+      console.error(response.data.detail, "error GetUser");
+      console.error(response.status, "error GetUser");
     }
   };
 

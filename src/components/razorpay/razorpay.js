@@ -34,6 +34,8 @@ function Razorpay() {
     // creating a new order and sending order ID to backend
     const result = await axios.post(`${base_url}payment/razorpay_order`, {
       order_id: "order_KNzvO2qHOGX0QW",
+      amount : 10,
+      name : 'bala'
     });
 
     if (!result) {
