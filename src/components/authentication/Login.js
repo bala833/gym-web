@@ -152,7 +152,7 @@ const Login = () => {
           {
             ToastMessage(
               "error",
-              "Only Superuser can login, Please contact Administrator"
+              "Only Admin can login, Please contact Administrator"
             );
           }
           else if(error.response.status === 400 && error.response.data === 'Incorrect Login credentials'){
@@ -161,6 +161,13 @@ const Login = () => {
               "Please check you username and password"
             );
           }
+          else {
+            ToastMessage(
+              "error",
+              "Please check your connection"
+            );
+          }
+
           setLoginLoader(false);
         }
       );

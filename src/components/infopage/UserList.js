@@ -32,6 +32,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
+import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
+import Loader from "../../common/loader/loader";
 const columns = [
   // { id: "id", label: "ID", minWidth: 170 },
   // { id: "UserName", label: "UserName", minWidth: 170 },
@@ -43,6 +45,18 @@ const columns = [
   { id: "Action", label: "Action", minWidth: 170 },
 ];
 
+const actionMenu = [
+  {
+    title: "edit",
+    path: "/user",
+    icon: <ModeEditOutlineTwoToneIcon fontSize="small" />,
+  },
+  {
+    title: "deactivate",
+    path: "",
+    icon: <ModeEditOutlineTwoToneIcon fontSize="small" />,
+  },
+];
 const UserList = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
@@ -300,7 +314,7 @@ const UserList = () => {
                                   <MoreHorizIcon onClick={handleOpenUserMenu} />
                                 </IconButton>
                                 <Menu
-                                  sx={{ mt: "30px", ml: "20px" }}
+                                  sx={{ mt: "20px", ml: "20px" }}
                                   id="menu-appbar"
                                   anchorEl={anchorElUser}
                                   anchorOrigin={{
@@ -315,73 +329,26 @@ const UserList = () => {
                                   open={Boolean(anchorElUser)}
                                   onClose={handleCloseUserMenu}
                                 >
-                                  <MenuItem
-                                    key="Edit"
-                                    onClick={handleCloseUserMenu}
-                                  >
-                                    <Typography textalign="center">
-                                      <Link
-                                        to={`/user/${row.user.id}`}
-                                        style={{ color: "black" }}
-                                        key={row.user.id}
+                                  {actionMenu.map((item) => {
+                                    return (
+                                      <MenuItem
+                                        key={item.title}
+                                        onClick={handleCloseUserMenu}
                                       >
-                                        <span>Edit</span>
-                                      </Link>
-                                    </Typography>
-                                  </MenuItem>
-
-                                  <MenuItem
-                                    key="delete"
-                                    onClick={handleCloseUserMenu}
-                                  >
-                                    <Typography textalign="center">
-                                      <span>Delete</span>
-                                    </Typography>
-                                  </MenuItem>
-                                  <MenuItem
-                                    key="clone"
-                                    onClick={handleCloseUserMenu}
-                                  >
-                                    <Typography textalign="center">
-                                      <span>Clone</span>
-                                    </Typography>
-                                  </MenuItem>
+                                        <Typography textalign="center">
+                                              {" "}
+                                              <Link
+                                                to={`${item.path}/${row.user.id}`}
+                                                style={{ color: "black" }}
+                                                key={row.user.id}
+                                              >
+                                                <div className="justify-content-between"><span>{item.icon}</span><span style={{marginLeft : '35px'}}>{item.title}</span></div>
+                                              </Link>
+                                        </Typography>
+                                      </MenuItem>
+                                    );
+                                  })}
                                 </Menu>
-                                {/* <Fragment key={row.id}>
-                                  <Tooltip title="Update">
-                                    <IconButton
-                                      arial-label="Update"
-                                      className="vieweBtn editBtn"
-                                      style={{ color: "green" }}
-                                      onClick={(event) => {
-                                        event.stopPropagation();
-                                      }}
-                                    >
-                                      <Link
-                                        to={`/user/${row.user.id}`}
-                                        style={{ color: "black" }}
-                                        key={row.user.id}
-                                      >
-                                        <Edit />
-                                      </Link>
-                                    </IconButton>
-                                  </Tooltip>
-                                </Fragment>
-                                <Fragment>
-                                  <Tooltip title="Delete">
-                                    <IconButton
-                                      arial-label="Delete"
-                                      className="vieweBtn deleteBtn"
-                                      style={{ color: "red" }}
-                                      onClick={(event) => {
-                                        event.stopPropagation();
-                                        // handleClickOpen(row.id);
-                                      }}
-                                    >
-                                      <DeleteOutlined />
-                                    </IconButton>
-                                  </Tooltip>
-                                </Fragment> */}
                               </div>
                             </TableCell>
                           </>
@@ -435,6 +402,7 @@ const UserList = () => {
         ) : (
           <></>
         )}
+        <Loader/>
       </div>
     </>
   );
