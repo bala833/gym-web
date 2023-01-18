@@ -10,19 +10,22 @@ import { GlobalGymInfo } from "../../context";
 import "./sideBar.css";
 
 const SideBar = ({ item }) => {
-  const { selectedMenu, handlemenuSelected } = useContext(GlobalGymInfo);
+  const { selectedMenu, handlemenuSelected,ContMenuColor,handleMenuColor} = useContext(GlobalGymInfo);
   const [subnav, setSubnav] = useState(false);
   const [activemenu, setactivemenu] = useState("");
   const [menuName, setMenuName] = useState("home");
   const [menuColor, setMenuColor] = useState("home");
 
-  const showSubnav = useCallback(
-    () => [handlemenuSelected("asdfasdf"), setSubnav(true)],
-    [menuName, menuColor, subnav]
+  const showSubnav = useCallback((name) => {
+    handlemenuSelected("asdfasdf");
+    setSubnav(true);
+    handleMenuColor(name)
+    },
+    [selectedMenu,menuName,menuColor]
   );
   const closeSubnav = useCallback(
     () => [handlemenuSelected("jhggjhgg"), setSubnav(false)],
-    [menuName, menuColor, subnav]
+    [selectedMenu,menuName,menuColor]
   );
 
   const getCurrentLocation = () => {
@@ -31,7 +34,8 @@ const SideBar = ({ item }) => {
     setMenuName(newStr);
     setMenuColor(newStr);
     handlemenuSelected(newStr);
-  };
+    handleMenuColor(newStr)
+  }
   useEffect(() => {
     getCurrentLocation();
   }, []);
@@ -45,7 +49,7 @@ const SideBar = ({ item }) => {
         onMouseLeave={closeSubnav}
         onClick={getCurrentLocation}
       >
-        <div onMouseOverCapture={showSubnav}>
+        <div onMouseOverCapture={() => showSubnav(item.hoverName)} >
           {item.path ? (
             <Link
               to={item?.path ? item?.path : "/bala"}
@@ -56,11 +60,12 @@ const SideBar = ({ item }) => {
                 className="d-flex  align-items-center  "
                 style={{
                   marginLeft: "-1px",
+                  transitionDelay : '0.5s'
                 }}
               >
                 <span
                   className={`warpsidebar-icon ${
-                    item?.subManusLists?.includes(menuColor) ? "activeMenu" : ""
+                    item?.subManusLists?.includes(ContMenuColor) ? "activeMenu" : ""
                   }`}
                 >
                   {item.icon}
@@ -73,12 +78,14 @@ const SideBar = ({ item }) => {
               className="d-flex  align-items-center  "
               style={{
                 marginLeft: "-1px",
+                transition: '0.5s'
               }}
               key={item.title}
+              
             >
               <span
                 className={`warpsidebar-icon ${
-                  item?.subManusLists?.includes(menuColor) ? "activeMenu" : ""
+                  item?.subManusLists?.includes(ContMenuColor) ? "activeMenu" : ""
                 }`}
               >
                 {item.icon}
@@ -95,6 +102,7 @@ const SideBar = ({ item }) => {
                     className="warpsubsidebar-link"
                     to={subitem.path}
                     key={index}
+                    style={{transitionDelay : 'all 0.5s ease 1s'}}
                   >
                     <div className="child-list mt-3" key={index}>
                       <div
@@ -102,7 +110,7 @@ const SideBar = ({ item }) => {
                         style={{
                           marginLeft: "-1px",
                           color:
-                            subitem.activename === menuColor ? "#32acc28f" : "",
+                            subitem.activename === menuName ? "#32acc28f" : "",
                         }}
                       >
                         {subitem?.icon && (

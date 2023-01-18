@@ -10,7 +10,7 @@ export class GymProvider extends Component {
     isAuth: false,
     token: "",
     selectedMenu: "home",
-    MenuColor: "home",
+    ContMenuColor: "home",
   };
 
   Auth = (token_) => {
@@ -51,9 +51,15 @@ export class GymProvider extends Component {
     const location = window.location.pathname;
     var newStr = location.replace("/", "");
     this.setState({
-      MenuColor: newStr,
+      ContMenuColor: newStr,
     });
   };
+
+  handleMenuColor = (value) => {
+    this.setState({
+      ContMenuColor : value,
+    });
+  }
 
   async componentDidMount() {
     console.log("calling at initial load");
@@ -68,6 +74,8 @@ export class GymProvider extends Component {
           Auth: this.Auth,
           handlemenuSelected: this.handlemenuSelected,
           handleHover: this.handleHover,
+          handleMenuColor: this.handleMenuColor,
+          
         }}
       >
         {this.props.children}

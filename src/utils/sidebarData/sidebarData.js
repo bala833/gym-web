@@ -11,17 +11,20 @@ export const SidebarData = [
     path: "/",
     icon: <DashboardIcon />,
     subManusLists: ["home"],
+    hoverName : 'home'
   },
   {
     title: "Account",
     icon: <GroupOutlinedIcon />,
     subManusLists: ["account"],
+    hoverName : 'account',
     subNav: [
       {
         title: "Profile",
         icon: <ManageAccountsOutlinedIcon />,
         path: "/account",
         activename: "account",
+        hoverName : 'account'
       },
     ],
   },
@@ -29,6 +32,7 @@ export const SidebarData = [
     title: "Settings",
     icon: <SettingsIcon />,
     subManusLists: ["user"],
+    hoverName : 'user',
 
     subNav: [
       {
@@ -36,6 +40,7 @@ export const SidebarData = [
         icon: <PermIdentityOutlinedIcon />,
         path: "/user",
         activename: "user",
+        hoverName : 'user',
       },
     ],
   },
@@ -44,11 +49,13 @@ export const SidebarData = [
     path: "/team",
     icon: <DashboardIcon />,
     subManusLists: ["team"],
+    hoverName : 'team',
   },
   {
     title: "Razor Pay",
     icon: <DashboardIcon />,
     subManusLists: ["razorpay"],
+    hoverName : 'razorpay',
 
     subNav: [
       {
@@ -56,6 +63,7 @@ export const SidebarData = [
         path: "/razorpay",
         icon: <DashboardIcon />,
         activename: "razorpay",
+        hoverName : 'razorpay',
       },
     ],
   },
@@ -63,6 +71,7 @@ export const SidebarData = [
     title: "Support",
     path: "/support",
     icon: <DashboardIcon />,
+    hoverName : 'support',
   },
 ];
 
