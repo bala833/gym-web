@@ -23,12 +23,13 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { GlobalGymInfo } from "../../context";
 import Dashboard from "../dashbaord";
+import sleep from "../../utils/timer/timer";
 // import { ToastContainer, toast } from "react-toastify";
 
 // import SwipeableTemporaryDrawer from "../sideBar/sidebar";
 import { LoginLoader } from "../loader/loader";
 import { ToastMessage } from "../../utils/toastMessage/toast";
-import {base_url} from "../../Api/services"
+import { base_url } from "../../Api/services";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -110,6 +111,7 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoginLoader(true);
+    // sleep(2000);
 
     axiosInstance
       .post(`login-user/`, {
@@ -131,41 +133,39 @@ const Login = () => {
             }, 2000);
             ToastMessage("success", "Successfully logged in");
           }
-
         },
         (error) => {
-          if(error.response.status === 403 && error.response.data === "Account not active")
-          {
+          if (
+            error.response.status === 403 &&
+            error.response.data === "Account not active"
+          ) {
             ToastMessage(
               "error",
               "Account not active, Please contact Administrator"
             );
-          }
-          else if(error.response.status === 401 && error.response.data === "Account is not verified")
-          {
+          } else if (
+            error.response.status === 401 &&
+            error.response.data === "Account is not verified"
+          ) {
             ToastMessage(
               "error",
               "Account is not verified, Please contact Administrator"
             );
-          }
-          else if(error.response.status === 403 && error.response.data === "User is not superuser")
-          {
+          } else if (
+            error.response.status === 403 &&
+            error.response.data === "User is not superuser"
+          ) {
             ToastMessage(
               "error",
               "Only Admin can login, Please contact Administrator"
             );
-          }
-          else if(error.response.status === 400 && error.response.data === 'Incorrect Login credentials'){
-            ToastMessage(
-              "error",
-              "Please check you username and password"
-            );
-          }
-          else {
-            ToastMessage(
-              "error",
-              "Please check your connection"
-            );
+          } else if (
+            error.response.status === 400 &&
+            error.response.data === "Incorrect Login credentials"
+          ) {
+            ToastMessage("error", "Please check you username and password");
+          } else {
+            ToastMessage("error", "Please check your connection");
           }
 
           setLoginLoader(false);

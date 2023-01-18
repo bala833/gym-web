@@ -65,6 +65,7 @@ const UserList = () => {
   const [studentList, setStudentlist] = useState([]);
   const [resetpagenumber, setResetpagenumber] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const filter_initial_value = {
     value: "",
@@ -89,16 +90,20 @@ const UserList = () => {
         if (response && response?.data) {
           setStudentlist(response.data.results);
           setCount(response.data.count);
+          setLoader(true)
         }
       })
       .catch((error) => {
         console.error(error);
+        setLoader(false)
       });
   };
 
   const FetchCommands = async (currentpage) => {
+    setLoader(false)
     const res = await fetch(`${base_url}api/user-list/?page=${currentpage}`);
     const data = await res.json();
+    setLoader(true)
     return data;
   };
   const FetchCommandfilter = (currentpage, payload) => {
@@ -107,28 +112,38 @@ const UserList = () => {
         if (response && response?.data) {
           setStudentlist(response.data.results);
           setCount(response.data.count);
+          setLoader(true)
         }
       })
       .catch((error) => {
         console.error(error);
+        setLoader(false)
       });
   };
 
   const handlePageClick = async (data) => {
+    setLoader(false)
     let getData = data.selected + 1;
     if (!filter_.value) {
       const res = await FetchCommands(getData);
       setStudentlist(res.results);
       setCount(res.count);
+
     } else {
       const res = await FetchCommandfilter(getData, filter_);
+
       // setStudentlist(res.results);
       // setCount(res.count);
     }
   };
 
-  useEffect(() => {
-    StudentListApi();
+  useEffect( () => {
+    setLoader(true)
+    setTimeout(() => {
+      StudentListApi();
+    }, 2000);
+    setLoader(false)
+    
   }, []);
 
   const handleChange = (event) => {
@@ -143,15 +158,18 @@ const UserList = () => {
           if (response && response?.data) {
             setStudentlist(response.data.results);
             setCount(response.data.count);
+            setLoader(true)
           }
         })
         .catch((error) => {
           console.error(error);
+          setLoader(false)
         });
     }
   };
 
   const Reset = () => {
+    setLoader(false)
     const element = document.getElementById("outlined-search");
     element.value = "";
     setFilter_({ ...filter_, value: "" });
@@ -163,6 +181,7 @@ const UserList = () => {
     setTimeout(() => {
       setResetpagenumber(0);
     }, 200);
+    setLoader(true)
   };
 
   return (
@@ -246,7 +265,8 @@ const UserList = () => {
                   ))}
                 </TableRow>
               </TableHead>
-              {count > 0 ? (
+              {loader ?
+              (count > 0 ? (
                 <TableBody>
                   {studentList.map((row) => {
                     return (
@@ -359,11 +379,13 @@ const UserList = () => {
                 </TableBody>
               ) : (
                 <></>
-              )}
+              )) : <Loader height='100px' width='100px'/>
+              }
             </Table>
           </TableContainer>
         </Paper>
-        {count > 0 ? (
+        {loader  ?
+        (count > 0 ? (
           <></>
         ) : (
           <div className="d-flex justify-content-center">
@@ -373,7 +395,11 @@ const UserList = () => {
               </span>
             </div>
           </div>
-        )}
+        ))
+        : null
+        }
+
+
         {count > 0 ? (
           <div className="mx-0 mt-2 d-flex justify-content-end">
             <div>
@@ -402,7 +428,7 @@ const UserList = () => {
         ) : (
           <></>
         )}
-        <Loader/>
+        
       </div>
     </>
   );
