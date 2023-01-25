@@ -24,6 +24,7 @@ import { useHistory } from "react-router-dom";
 import { GlobalGymInfo } from "../../context";
 import Dashboard from "../dashbaord";
 import sleep from "../../utils/timer/timer";
+import './Login.css'
 // import { ToastContainer, toast } from "react-toastify";
 
 // import SwipeableTemporaryDrawer from "../sideBar/sidebar";
@@ -216,6 +217,7 @@ const Login = () => {
                   height: "50px",
                   borderRadius: "10px",
                   backgroundColor: "white",
+
                 }}
                 onChange={handleUsernameChange}
               />

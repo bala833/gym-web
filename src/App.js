@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/authentication/ProtectRoute";
 import Profile from "./components/Account/profile";
 import Dashboard from "./components/dashbaord";
 import Razorpay from "./components/razorpay/razorpay";
+import Otp from "./components/Otp/otp";
 
 function App() {
   const { isAuth } = useContext(GlobalGymInfo);
@@ -48,6 +49,7 @@ function App() {
           component={Razorpay}
           auth={isAuth}
         />
+        <ProtectedRoute exact path="/otp" component={Otp} auth={isAuth} />
         <ProtectedRoute path="*" component={Page_not_found} auth={isAuth} />
       </Switch>
     </BrowserRouter>

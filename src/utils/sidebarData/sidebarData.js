@@ -45,11 +45,11 @@ export const SidebarData = [
     ],
   },
   {
-    title: "Team",
-    path: "/team",
+    title: "Opt Page",
+    path: "/otp",
     icon: <DashboardIcon />,
-    subManusLists: ["team"],
-    hoverName : 'team',
+    subManusLists: ["opt"],
+    hoverName : 'opt',
   },
   {
     title: "Razor Pay",
