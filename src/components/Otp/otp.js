@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 import { RE_DIGIT } from "../../utils/Regex/Allregex";
 import "./otp.css";
 
@@ -9,35 +9,35 @@ const Otp = () => {
     otp3: "",
     otp4: "",
     otp5: "",
-    opt6: "",
+    otp6: "",
   };
   const [otp, setOtp] = useState(initialOtp);
 
   const handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
-      let mainValue = value.substring(value.length - 1);
-      setOtp({ ...otp, [name]: mainValue });
+    let mainValue = value.substring(value.length - 1);
+    setOtp({ ...otp, [name]: mainValue });
   };
 
   const inputfocus = (elmnt) => {
-      if (elmnt.key === "Delete" || elmnt.key === "Backspace") {
-        const next = elmnt.target.tabIndex - 2;
-        if (next > -1) {
-          elmnt.target.form.elements[next].focus();
-        }
-      } else {
-        if (elmnt.key !== "ArrowRight") {
-          if (elmnt.key !== "ArrowLeft") {
-            if (elmnt.key !== "ArrowUp") {
-              if (elmnt.key !== "ArrowDown") {
-                const next = elmnt.target.tabIndex;
-                if (next < 6) {
-                  elmnt.target.form.elements[next].focus();
-                }
+    if (elmnt.key === "Delete" || elmnt.key === "Backspace") {
+      const next = elmnt.target.tabIndex - 2;
+      if (next > -1) {
+        elmnt.target.form.elements[next].focus();
+      }
+    } else {
+      if (elmnt.key !== "ArrowRight") {
+        if (elmnt.key !== "ArrowLeft") {
+          if (elmnt.key !== "ArrowUp") {
+            if (elmnt.key !== "ArrowDown") {
+              const next = elmnt.target.tabIndex;
+              if (next < 6) {
+                elmnt.target.form.elements[next].focus();
               }
             }
           }
+        }
       }
     }
   };
@@ -57,6 +57,36 @@ const Otp = () => {
       }
     }
   };
+
+  const submitOtpValidation = (otpV) => {
+    let value;
+    if (
+      otpV.otp1 &&
+      otpV.otp2 &&
+      otpV.otp3 &&
+      otpV.otp4 &&
+      otpV.otp5 &&
+      otpV.otp6
+    ) {
+      value = true;
+    } else {
+      value = false;
+    }
+    return value;
+  };
+
+  const handleReset = () => {
+    setOtp(initialOtp);
+  };
+
+  const handleSubmitValue = () => {
+    console.log(otp, "handleSubmitValue");
+  };
+  useEffect(() => {
+    if (submitOtpValidation(otp)) {
+      handleSubmitValue();
+    }
+  }, [otp]);
 
   return (
     <div>
@@ -136,7 +166,9 @@ const Otp = () => {
                   />
                 </form>
                 <hr class="mt-4" />
-                <button class=" mt-4 mb-4 customBtn">Resend Otp</button>
+                <button class=" mt-4 mb-4 customBtn" onClick={handleReset}>
+                  Resend Otp
+                </button>
               </div>
             </div>
           </div>
