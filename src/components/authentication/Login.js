@@ -24,13 +24,14 @@ import { useHistory } from "react-router-dom";
 import { GlobalGymInfo } from "../../context";
 import Dashboard from "../dashbaord";
 import sleep from "../../utils/timer/timer";
-import './Login.css'
+import "./Login.css";
 // import { ToastContainer, toast } from "react-toastify";
 
 // import SwipeableTemporaryDrawer from "../sideBar/sidebar";
 import { LoginLoader } from "../loader/loader";
 import { ToastMessage } from "../../utils/toastMessage/toast";
 import { base_url } from "../../Api/services";
+import { AuthdetailInfo } from "../../context/auth.index";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -65,7 +66,9 @@ export const loaderImp = () => {
   }, 1000);
 };
 const Login = () => {
-  const { Auth } = useContext(GlobalGymInfo);
+  const { AuthToken } = useContext(GlobalGymInfo);
+  const { handleSetUseEmail } = useContext(AuthdetailInfo);
+
 
   const classes = useStyles();
   const [values, setValues] = useState({
@@ -75,6 +78,7 @@ const Login = () => {
 
   const [useranme, setUseranme] = useState("");
   const [password, setPassword] = useState("");
+  const [pushOtp, setPushOtp] = useState(false);
 
   let history = useHistory();
 
@@ -128,7 +132,7 @@ const Login = () => {
               "token " + localStorage.getItem("token");
 
             let token_ = localStorage.getItem("token");
-            Auth(token_);
+            AuthToken(token_);
             setTimeout(function () {
               history.push("/home");
             }, 2000);
@@ -148,10 +152,12 @@ const Login = () => {
             error.response.status === 401 &&
             error.response.data === "Account is not verified"
           ) {
-            ToastMessage(
-              "error",
-              "Account is not verified, Please contact Administrator"
-            );
+            // ToastMessage(
+            //   "error",
+            //   "Account is not verified, Please contact Administrator"
+            // );
+            handleSetUseEmail(useranme)
+            history.push("/otp");
           } else if (
             error.response.status === 403 &&
             error.response.data === "User is not superuser"
@@ -217,7 +223,6 @@ const Login = () => {
                   height: "50px",
                   borderRadius: "10px",
                   backgroundColor: "white",
-
                 }}
                 onChange={handleUsernameChange}
               />

@@ -7,7 +7,7 @@ export const GlobalGymInfo = createContext();
 export class GymProvider extends Component {
   state = {
     GlobalGymName: "Gym",
-    isAuth: false,
+    isAuth: true,
     token: "",
     selectedMenu: "home",
     ContMenuColor: "home",

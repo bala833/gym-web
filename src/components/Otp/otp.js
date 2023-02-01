@@ -1,8 +1,16 @@
-import react, { useEffect, useState } from "react";
+import react, { useEffect, useState, useContext } from "react";
+import { otpVerify, Resend } from "../../Api/services";
+import Loader from "../../common/loader/loader";
+import { AuthdetailInfo } from "../../context/auth.index";
 import { RE_DIGIT } from "../../utils/Regex/Allregex";
+import { ToastMessage } from "../../utils/toastMessage/toast";
+import { useHistory } from "react-router-dom";
+
 import "./otp.css";
 
 const Otp = () => {
+  const { useEmail } = useContext(AuthdetailInfo);
+
   const initialOtp = {
     otp1: "",
     otp2: "",
@@ -12,6 +20,8 @@ const Otp = () => {
     otp6: "",
   };
   const [otp, setOtp] = useState(initialOtp);
+  const [loader, setLoader] = useState(false);
+  let history = useHistory();
 
   const handleChange = (e) => {
     let name = e.target.name;
@@ -75,12 +85,60 @@ const Otp = () => {
     return value;
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
+    setLoader(true);
     setOtp(initialOtp);
+    const payload = {
+      email: useEmail,
+    };
+    const response = await Resend(payload);
+
+    if (response.status === 200) {
+      ToastMessage(
+        "success",
+        "Otp resend successfully please, check your provided email inbox"
+      );
+      setLoader(false);
+    } else if (response.status === 500) {
+      ToastMessage(
+        "error",
+        "While resend otp on you email having some issue, Please contact to administrator"
+      );
+      setLoader(false);
+    }
   };
 
-  const handleSubmitValue = () => {
-    console.log(otp, "handleSubmitValue");
+  const handleSubmitValue = async () => {
+    // {
+    //   "email" : "balaprajapati02@gmail.com",
+    //   "otp" : ""
+    //   }
+    setLoader(true);
+
+    const otpCode =
+      otp.otp1 + otp.otp2 + otp.otp3 + otp.otp4 + otp.otp5 + otp.otp6;
+    const payload = {
+      email: useEmail,
+      otp: otpCode,
+    };
+    const response = await otpVerify(payload);
+    console.log(response, "response");
+    if (response.data.data && response.data.status === 200) {
+      ToastMessage("success", "Account is verified successfully");
+      setLoader(false);
+      history.push("/home");
+    } else if (response.data.status === 400) {
+      ToastMessage("error", "Wrong Otp");
+      setLoader(false);
+    } else {
+      ToastMessage(
+        "error",
+        "Something went wrong please contact Administrator"
+      );
+      setLoader(false);
+    }
+
+    console.log(payload);
   };
   useEffect(() => {
     if (submitOtpValidation(otp)) {
@@ -91,11 +149,12 @@ const Otp = () => {
   return (
     <div>
       <div class="container">
+        {loader ? <Loader height="100px" width="100px" /> : null}
         <div class="row justify-content-md-center">
           <div class="col-md-4 text-center box-width">
             <div class="row">
               <div class="col-sm-12 mt-custom mb-5 bgWhite">
-                <div class="title">Verify OTP</div>
+                <div class="title">Verify OTP {useEmail}</div>
 
                 <form action="" class="mt-5">
                   <input
@@ -166,7 +225,11 @@ const Otp = () => {
                   />
                 </form>
                 <hr class="mt-4" />
-                <button class=" mt-4 mb-4 customBtn" onClick={handleReset}>
+                <button
+                  class=" mt-4 mb-4 customBtn"
+                  onClick={handleReset}
+                  disabled={loader}
+                >
                   Resend Otp
                 </button>
               </div>

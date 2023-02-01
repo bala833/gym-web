@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import { GymProvider } from "./context";
 import { ToastContainer, toast } from "react-toastify";
+import { AuthDetail } from "./context/auth.index";
 
 require("react-web-vector-icons/fonts");
 
@@ -12,8 +13,10 @@ const rootElement = document.getElementById("root");
 ReactDOM.render(
   <React.StrictMode>
     <GymProvider>
-      <App />
-      <ToastContainer />
+      <AuthDetail>
+        <App />
+        <ToastContainer />
+      </AuthDetail>
     </GymProvider>
   </React.StrictMode>,
   rootElement

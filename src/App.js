@@ -17,6 +17,7 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Login} />
+        <Route exact path="/otp" component={Otp} />
         <ProtectedRoute
           exact
           path="/home"
@@ -49,7 +50,6 @@ function App() {
           component={Razorpay}
           auth={isAuth}
         />
-        <ProtectedRoute exact path="/otp" component={Otp} auth={isAuth} />
         <ProtectedRoute path="*" component={Page_not_found} auth={isAuth} />
       </Switch>
     </BrowserRouter>

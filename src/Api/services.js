@@ -1,6 +1,6 @@
 import axios from "axios";
 // export const base_url =
-  // process.env.REACT_APP_URL || "https://sushil.pythonanywhere.com/";
+// process.env.REACT_APP_URL || "https://sushil.pythonanywhere.com/";
 // console.log(base_url, "asdfasdfasdfasdf");
 export const base_url = "http://127.0.0.1:8000/";
 
@@ -22,6 +22,22 @@ export const Logout = async () => {
       {},
       { headers: { Authorization: `token ${token}` } }
     );
+  } catch (err) {
+    return err.response;
+  }
+};
+
+export const otpVerify = async (payload) => {
+  try {
+    return await axios.post(`${base_url}api/verify/`, payload);
+  } catch (err) {
+    return err.response;
+  }
+};
+
+export const Resend = async (payload) => {
+  try {
+    return await axios.post(`${base_url}api/resend-otp/`, payload);
   } catch (err) {
     return err.response;
   }
