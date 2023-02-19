@@ -38,3 +38,9 @@
  border-color: black;
  border-radius:  5px;
   }
+
+  .fadbackground {
+    vertical-align: top;
+  transition: opacity 0.3s;
+  opacity: 0.8;
+  }

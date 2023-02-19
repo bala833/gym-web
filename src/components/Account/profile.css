@@ -29,19 +29,4 @@
   white-space: nowrap;
 }
 
-.addUserButtonContainer {
-  position: relative;
-  white-space: nowrap;
-}
 
-.addNewUser {
-  background: #efeff0;
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: none;
-  height: 40px;
-}
-.addNewUser a {
-  color: black;
-  text-decoration: none;
-}

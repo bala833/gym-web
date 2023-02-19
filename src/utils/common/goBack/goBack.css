@@ -1,0 +1,19 @@
+.addUserButtonContainer {
+    position: absolute;
+    white-space: nowrap;
+}
+.textStyle{
+    font-weight: 600;
+}
+.backButton {
+    background: #efeff0;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: none;
+    height: 40px;
+}
+
+.backButton a {
+    color: black;
+    text-decoration: none;
+}

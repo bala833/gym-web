@@ -9,9 +9,9 @@ import { Link } from "react-router-dom";
 import { GetUserByToken, Logout } from "../../Api/services";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import "./profile.css";
 import { GlobalGymInfo } from "../../context";
+import BackButton from "../../utils/common/goBack/goBack";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -66,22 +66,7 @@ const Profile = () => {
   return (
     <>
       <Header />
-      <div className="mt-3">
-        <div className="row">
-          <div className="col-md-1">
-            {/* backbutton */}
-            <div className=" addUserButtonContainer my-1 mx-2 ">
-              <button class="addNewUser">
-                <Link to="/">
-                  <KeyboardArrowLeftIcon />
-                  GO Back
-                </Link>
-              </button>
-            </div>
-          </div>
-          <div className="col-md-11"></div>
-        </div>
-      </div>
+      <BackButton path="/" />
       <div className="container mt-1">
         <div className="row ">
           {/* user image */}

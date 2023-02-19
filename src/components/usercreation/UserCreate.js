@@ -15,6 +15,7 @@ import "./usercreation.css";
 import { DateFilter } from "../../common/datefilter/validateDate";
 import { ToastMessage } from "../../utils/toastMessage/toast";
 import Loader from "../../common/loader/loader";
+import BackButton from "../../utils/common/goBack/goBack";
 
 const UserCreation = () => {
   const form_initial_value = {
@@ -331,10 +332,13 @@ const UserCreation = () => {
   } else {
     return (
       <>
-       
+       <div className="mb-5">
+
+        <BackButton path="/user" />
         <div className="d-flex justify-content-center mt-1">
           <div className="custom-header">User Detail</div>
         </div>
+       </div>
         <div className="container custom-text-family">
           <div className="row">
             <form className="justify-content-center">

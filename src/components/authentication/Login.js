@@ -136,8 +136,10 @@ const Login = () => {
             setTimeout(function () {
               history.push("/home");
             }, 2000);
+            console.log('running toast message')
             ToastMessage("success", "Successfully logged in");
           }
+          setLoginLoader(false)
         },
         (error) => {
           if (

@@ -13,7 +13,7 @@ export class GymProvider extends Component {
     ContMenuColor: "home",
   };
 
-  Auth = (token_) => {
+  AuthToken = (token_) => {
     if (token_ !== null && token_ !== undefined) {
       console.log("getted token");
       this.setState({
@@ -72,6 +72,7 @@ export class GymProvider extends Component {
           ...this.state,
           logout: this.logout,
           Auth: this.Auth,
+          AuthToken: this.AuthToken,
           handlemenuSelected: this.handlemenuSelected,
           handleHover: this.handleHover,
           handleMenuColor: this.handleMenuColor,

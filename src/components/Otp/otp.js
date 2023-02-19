@@ -7,6 +7,7 @@ import { ToastMessage } from "../../utils/toastMessage/toast";
 import { useHistory } from "react-router-dom";
 
 import "./otp.css";
+import BackButton from "../../utils/common/goBack/goBack";
 
 const Otp = () => {
   const { useEmail } = useContext(AuthdetailInfo);
@@ -98,13 +99,19 @@ const Otp = () => {
         "success",
         "Otp resend successfully please, check your provided email inbox"
       );
-      setLoader(false);
+      setTimeout(() => {
+        
+        setLoader(false);
+      }, 1000);
     } else if (response.status === 500) {
       ToastMessage(
         "error",
         "While resend otp on you email having some issue, Please contact to administrator"
       );
-      setLoader(false);
+      setTimeout(() => {
+        
+        setLoader(false);
+      }, 1000);
     }
   };
 
@@ -148,7 +155,9 @@ const Otp = () => {
 
   return (
     <div>
+        <BackButton path='/' />
       <div class="container">
+        <div className="fadbackground" />
         {loader ? <Loader height="100px" width="100px" /> : null}
         <div class="row justify-content-md-center">
           <div class="col-md-4 text-center box-width">
