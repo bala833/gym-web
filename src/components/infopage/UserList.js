@@ -66,10 +66,14 @@ const UserList = () => {
   const [resetpagenumber, setResetpagenumber] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [limit, setLimit] = useState(1);
+  const [payload, setPayload] = useState([]);
+  const [initialCall, setInitialCall] = useState(true);
 
   const filter_initial_value = {
     value: "",
-  };
+    limit: 1
+  }
   const [filter_, setFilter_] = useState(filter_initial_value);
 
   const handleClose = () => {
@@ -84,26 +88,60 @@ const UserList = () => {
     setAnchorElUser(null);
   };
 
+  const handlePageLimit = async (e) => {
+    setLimit(e.target.value);
+    if (!filter_.value) {
+      // const payload =[{'limit': e.target.value}]
+      setPayload({...payload,'limit' : e.target.value} )
+      const response = await API.post(`${base_url}api/user-list/`, {'limit' : e.target.value});
+      // const response = await res.json();
+      setStudentlist(response.data.results);
+      setCount(response.data.count);
+      setLoader(true);
+    } else {
+      setPayload({...payload,'value' : filter_.value })
+      setPayload({...payload,'limit' : e.target.value} )
+      // const payload = [filter_,{'limit': e.target.value}]
+      const paload = {
+        'value' : filter_.value,
+        'limit' : e.target.value
+      }
+      API.post(`${base_url}api/user-filter/`, paload)
+        .then((response) => {
+
+          if (response && response?.data) {
+            setStudentlist(response.data.results);
+            setCount(response.data.count);
+            setLoader(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoader(false);
+        });
+    }
+  };
+
   const StudentListApi = () => {
     API.get(`${base_url}api/user-list/`)
       .then((response) => {
         if (response && response?.data) {
           setStudentlist(response.data.results);
           setCount(response.data.count);
-          setLoader(true)
+          setLoader(true);
         }
       })
       .catch((error) => {
         console.error(error);
-        setLoader(false)
+        setLoader(false);
       });
   };
 
   const FetchCommands = async (currentpage) => {
-    setLoader(false)
+    setLoader(false);
     const res = await fetch(`${base_url}api/user-list/?page=${currentpage}`);
     const data = await res.json();
-    setLoader(true)
+    setLoader(true);
     return data;
   };
   const FetchCommandfilter = (currentpage, payload) => {
@@ -112,23 +150,22 @@ const UserList = () => {
         if (response && response?.data) {
           setStudentlist(response.data.results);
           setCount(response.data.count);
-          setLoader(true)
+          setLoader(true);
         }
       })
       .catch((error) => {
         console.error(error);
-        setLoader(false)
+        setLoader(false);
       });
   };
 
   const handlePageClick = async (data) => {
-    setLoader(false)
+    setLoader(false);
     let getData = data.selected + 1;
     if (!filter_.value) {
       const res = await FetchCommands(getData);
       setStudentlist(res.results);
       setCount(res.count);
-
     } else {
       const res = await FetchCommandfilter(getData, filter_);
 
@@ -137,17 +174,25 @@ const UserList = () => {
     }
   };
 
-  useEffect( () => {
-    setLoader(true)
-    setTimeout(() => {
-      StudentListApi();
-    }, 2000);
-    setLoader(false)
-    
-  }, []);
+  useEffect(() => {
+    setLoader(true);
+    if (initialCall){
+
+      setLimit(1)
+      setTimeout(() => {
+        StudentListApi();
+      }, 2000);
+    }
+     setInitialCall(false)
+
+    setLoader(false);
+    console.log(Math.ceil(count/limit), 'count and limit')
+
+    setLoader(false);
+  }, [limit]);
 
   const handleChange = (event) => {
-    setFilter_({ ...filter_, value: event.target.value });
+    setFilter_({ ...filter_, 'value': event.target.value });
   };
 
   const StudentListFilter = () => {
@@ -158,21 +203,22 @@ const UserList = () => {
           if (response && response?.data) {
             setStudentlist(response.data.results);
             setCount(response.data.count);
-            setLoader(true)
+            setLoader(true);
           }
         })
         .catch((error) => {
           console.error(error);
-          setLoader(false)
+          setLoader(false);
         });
     }
   };
 
   const Reset = () => {
-    setLoader(false)
+    setLoader(false);
     const element = document.getElementById("outlined-search");
     element.value = "";
-    setFilter_({ ...filter_, value: "" });
+    setFilter_({ ...filter_, 'value': "" });
+    setLimit(1)
     StudentListApi();
     setResetpagenumber(0);
     setTimeout(() => {
@@ -181,7 +227,7 @@ const UserList = () => {
     setTimeout(() => {
       setResetpagenumber(0);
     }, 200);
-    setLoader(true)
+    setLoader(true);
   };
 
   return (
@@ -265,25 +311,25 @@ const UserList = () => {
                   ))}
                 </TableRow>
               </TableHead>
-              {loader ?
-              (count > 0 ? (
-                <TableBody>
-                  {studentList.map((row) => {
-                    return (
-                      <TableRow
-                        hover
-                        // {studentList.length > 0 ? <></> : <></>}
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.id}
-                        style={{ width: 10 }}
-                      >
-                        {row.error ? (
-                          <></>
-                        ) : (
-                          <>
-                            {/* <TableCell>{row.id}</TableCell> */}
-                            {/* <TableCell>
+              {loader ? (
+                count > 0 ? (
+                  <TableBody>
+                    {studentList.map((row) => {
+                      return (
+                        <TableRow
+                          hover
+                          // {studentList.length > 0 ? <></> : <></>}
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={row.id}
+                          style={{ width: 10 }}
+                        >
+                          {row.error ? (
+                            <></>
+                          ) : (
+                            <>
+                              {/* <TableCell>{row.id}</TableCell> */}
+                              {/* <TableCell>
                               {row.user.username.length < 10 ? (
                                 row.user.username
                               ) : (
@@ -294,111 +340,120 @@ const UserList = () => {
                                 </Tooltip>
                               )}
                             </TableCell> */}
-                            <TableCell>{row.email}</TableCell>
-                            <TableCell>{row.phone}</TableCell>
-                            <TableCell>
-                              {row.is_verified ? "Yes" : "No"}
-                            </TableCell>
-                            <TableCell>
-                              <div
-                                style={{
-                                  background: "#ffefef",
-                                  minHeight: "23px",
-                                  borderRadius: "22px",
-                                  width: "86px",
-                                }}
-                              >
-                                <span
+                              <TableCell>{row.email}</TableCell>
+                              <TableCell>{row.phone}</TableCell>
+                              <TableCell>
+                                {row.is_verified ? "Yes" : "No"}
+                              </TableCell>
+                              <TableCell>
+                                <div
                                   style={{
-                                    height: "9px",
-                                    width: "9px",
-                                    backgroundColor: "green ",
-                                    borderRadius: "50%",
-                                    display: "inline-block",
-                                    margin: "7px 8px -1px 12px",
+                                    background: "#ffefef",
+                                    minHeight: "23px",
+                                    borderRadius: "22px",
+                                    width: "86px",
                                   }}
-                                ></span>
-                                <span style={{ fontSize: "12px" }}>
-                                  {row.user.is_active ? "Active" : "Inactive"}
-                                </span>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              {row.user.is_superuser
-                                ? "Super User"
-                                : "Customer"}
-                            </TableCell>
-                            <TableCell>
-                              <div style={{ display: "flex" }} key={row.id}>
-                                <IconButton sx={{ p: 0 }}>
-                                  <MoreHorizIcon onClick={handleOpenUserMenu} />
-                                </IconButton>
-                                <Menu
-                                  sx={{ mt: "20px", ml: "20px" }}
-                                  id="menu-appbar"
-                                  anchorEl={anchorElUser}
-                                  anchorOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                  }}
-                                  keepMounted
-                                  transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                  }}
-                                  open={Boolean(anchorElUser)}
-                                  onClose={handleCloseUserMenu}
                                 >
-                                  {actionMenu.map((item) => {
-                                    return (
-                                      <MenuItem
-                                        key={item.title}
-                                        onClick={handleCloseUserMenu}
-                                      >
-                                        <Typography textalign="center">
-                                              {" "}
-                                              <Link
-                                                to={`${item.path}/${row.user.id}`}
-                                                style={{ color: "black" }}
-                                                key={row.user.id}
-                                              >
-                                                <div className="justify-content-between"><span>{item.icon}</span><span style={{marginLeft : '35px'}}>{item.title}</span></div>
-                                              </Link>
-                                        </Typography>
-                                      </MenuItem>
-                                    );
-                                  })}
-                                </Menu>
-                              </div>
-                            </TableCell>
-                          </>
-                        )}
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
+                                  <span
+                                    style={{
+                                      height: "9px",
+                                      width: "9px",
+                                      backgroundColor: "green ",
+                                      borderRadius: "50%",
+                                      display: "inline-block",
+                                      margin: "7px 8px -1px 12px",
+                                    }}
+                                  ></span>
+                                  <span style={{ fontSize: "12px" }}>
+                                    {row.user.is_active ? "Active" : "Inactive"}
+                                  </span>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                {row.user.is_superuser
+                                  ? "Super User"
+                                  : "Customer"}
+                              </TableCell>
+                              <TableCell>
+                                <div style={{ display: "flex" }} key={row.id}>
+                                  <IconButton sx={{ p: 0 }}>
+                                    <MoreHorizIcon
+                                      onClick={handleOpenUserMenu}
+                                    />
+                                  </IconButton>
+                                  <Menu
+                                    sx={{ mt: "20px", ml: "20px" }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                      vertical: "top",
+                                      horizontal: "right",
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                      vertical: "top",
+                                      horizontal: "right",
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                  >
+                                    {actionMenu.map((item) => {
+                                      return (
+                                        <MenuItem
+                                          key={item.title}
+                                          onClick={handleCloseUserMenu}
+                                        >
+                                          <Typography textalign="center">
+                                            {" "}
+                                            <Link
+                                              to={`${item.path}/${row.user.id}`}
+                                              style={{ color: "black" }}
+                                              key={row.user.id}
+                                            >
+                                              <div className="justify-content-between">
+                                                <span>{item.icon}</span>
+                                                <span
+                                                  style={{ marginLeft: "35px" }}
+                                                >
+                                                  {item.title}
+                                                </span>
+                                              </div>
+                                            </Link>
+                                          </Typography>
+                                        </MenuItem>
+                                      );
+                                    })}
+                                  </Menu>
+                                </div>
+                              </TableCell>
+                            </>
+                          )}
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                ) : (
+                  <></>
+                )
               ) : (
-                <></>
-              )) : <Loader height='100px' width='100px'/>
-              }
+                <Loader height="100px" width="100px" />
+              )}
             </Table>
           </TableContainer>
         </Paper>
-        {loader  ?
-        (count > 0 ? (
-          <></>
-        ) : (
-          <div className="d-flex justify-content-center">
-            <div className="my-3">
-              <span style={{ fontSize: "20px", color: "gray" }}>
-                No Record Found
-              </span>
+        {loader ? (
+          count > 0 ? (
+            <></>
+          ) : (
+            <div className="d-flex justify-content-center">
+              <div className="my-3">
+                <span style={{ fontSize: "20px", color: "gray" }}>
+                  No Record Found
+                </span>
+              </div>
             </div>
-          </div>
-        ))
-        : null
-        }
-
+          )
+        ) : null}
 
         {count > 0 ? (
           <div className="mx-0 mt-2 d-flex justify-content-end">
@@ -407,7 +462,7 @@ const UserList = () => {
                 previousLabel={"Previous"}
                 nextLabel={"Next"}
                 breakLabel={"..."}
-                pageCount={Math.ceil(count / 1)}
+                pageCount={limit ? Math.ceil(count/limit) :Math.ceil(count / 1)}
                 marginPagesDisplayed={2}
                 onPageChange={handlePageClick}
                 containerClassName={"pagination justify-content-center"}
@@ -423,12 +478,32 @@ const UserList = () => {
                 forcePage={resetpagenumber}
               />
             </div>
-            <div className="page-link">Limit</div>
+
+            <div className="justify-content-center">
+              <select
+                name="limit"
+                id="limit"
+                style={{
+                  minHeight: "32px !important",
+                  width: "67px",
+                  border: "1px",
+
+                  backgroundColor: "rgba(0, 0, 0, 0.87)",
+                  color: "white",
+                }}
+                value={limit}
+                onChange={(e) => handlePageLimit(e)}
+              >
+                <option value="1">1</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
           </div>
         ) : (
           <></>
         )}
-        
       </div>
     </>
   );

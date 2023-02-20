@@ -65,6 +65,13 @@ export const SidebarData = [
         activename: "razorpay",
         hoverName : 'razorpay',
       },
+      {
+        title: "Otp",
+        path: "/otp",
+        icon: <DashboardIcon />,
+        activename: "Otp",
+        hoverName : 'Otp',
+      },
     ],
   },
   {

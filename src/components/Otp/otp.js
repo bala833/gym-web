@@ -158,13 +158,26 @@ const Otp = () => {
         <BackButton path='/' />
       <div class="container">
         <div className="fadbackground" />
-        {loader ? <Loader height="100px" width="100px" /> : null}
         <div class="row justify-content-md-center">
           <div class="col-md-4 text-center box-width">
             <div class="row">
               <div class="col-sm-12 mt-custom mb-5 bgWhite">
                 <div class="title">Verify OTP {useEmail}</div>
+        {loader ? 
 
+                <div
+                  className="justify-content-center"
+                  style={{ height: "50%", width: "97%", position: "relative" }}
+                >
+                  {" "}
+                  <img
+                    src={
+                      require("../../assests/loader/Eclipse_loader.svg").default
+                    }
+                    alt="loader"
+                  />
+                </div>
+:
                 <form action="" class="mt-5">
                   <input
                     class="otp-input"
@@ -233,6 +246,7 @@ const Otp = () => {
                     onKeyUp={inputfocus}
                   />
                 </form>
+        }
                 <hr class="mt-4" />
                 <button
                   class=" mt-4 mb-4 customBtn"

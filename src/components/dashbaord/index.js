@@ -26,7 +26,7 @@ const Dashboard = () => {
             <div className="col-md-3">
               <div className="card" style={{ width: "auto", height: "200px" }}>
                 <h5 className="card-title d-flex justify-content-center">
-                  Total user :{/* {totalUser} */}
+                  Total user : {totalUser} 
                 </h5>
               </div>
             </div>
