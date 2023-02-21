@@ -1,4 +1,3 @@
-import { GlobalGymInfo } from "../../context";
 import React, { Component, useEffect, useState, Fragment } from "react";
 
 import Paper from "@material-ui/core//Paper";
@@ -7,7 +6,6 @@ import TableBody from "@material-ui/core//TableBody";
 import TableCell from "@material-ui/core//TableCell";
 import TableContainer from "@material-ui/core//TableContainer";
 import TableHead from "@material-ui/core//TableHead";
-import TablePagination from "@material-ui/core//TablePagination";
 import TableRow from "@material-ui/core//TableRow";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
@@ -15,9 +13,6 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import Edit from "@material-ui/icons/Edit";
-import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import API from "../../context/API";
@@ -28,12 +23,13 @@ import Header from "../header/header";
 import { base_url } from "../../Api/services";
 
 import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import Loader from "../../common/loader/loader";
+import Form from "react-bootstrap/Form";
+
 const columns = [
   // { id: "id", label: "ID", minWidth: 170 },
   // { id: "UserName", label: "UserName", minWidth: 170 },
@@ -72,8 +68,9 @@ const UserList = () => {
 
   const filter_initial_value = {
     value: "",
-    limit: 1
-  }
+    limit: 1,
+  };
+  const [searchData, setSearchData] = useState(filter_initial_value);
   const [filter_, setFilter_] = useState(filter_initial_value);
 
   const handleClose = () => {
@@ -88,31 +85,40 @@ const UserList = () => {
     setAnchorElUser(null);
   };
 
-  const handlePageLimit = async (e) => {
-    setLimit(e.target.value);
+  const handlePageLimit = async () => {
     if (!filter_.value) {
-      // const payload =[{'limit': e.target.value}]
-      setPayload({...payload,'limit' : e.target.value} )
-      const response = await API.post(`${base_url}api/user-list/`, {'limit' : e.target.value});
-      // const response = await res.json();
+      setPayload({ ...payload, limit: limit });
+      const response = await API.post(`${base_url}api/user-list/`, {
+        limit: limit,
+      });
       setStudentlist(response.data.results);
       setCount(response.data.count);
       setLoader(true);
+      setResetpagenumber(0);
+      setTimeout(() => {
+        setResetpagenumber(null);
+      }, 200);
+      setTimeout(() => {
+        setResetpagenumber(0);
+      }, 200);
     } else {
-      setPayload({...payload,'value' : filter_.value })
-      setPayload({...payload,'limit' : e.target.value} )
-      // const payload = [filter_,{'limit': e.target.value}]
       const paload = {
-        'value' : filter_.value,
-        'limit' : e.target.value
-      }
+        value: filter_.value,
+        limit: limit,
+      };
       API.post(`${base_url}api/user-filter/`, paload)
         .then((response) => {
-
           if (response && response?.data) {
             setStudentlist(response.data.results);
             setCount(response.data.count);
             setLoader(true);
+            setResetpagenumber(0);
+            setTimeout(() => {
+              setResetpagenumber(null);
+            }, 200);
+            setTimeout(() => {
+              setResetpagenumber(0);
+            }, 200);
           }
         })
         .catch((error) => {
@@ -162,12 +168,12 @@ const UserList = () => {
   const handlePageClick = async (data) => {
     setLoader(false);
     let getData = data.selected + 1;
-    if (!filter_.value) {
+    if (!searchData.value) {
       const res = await FetchCommands(getData);
       setStudentlist(res.results);
       setCount(res.count);
     } else {
-      const res = await FetchCommandfilter(getData, filter_);
+      const res = await FetchCommandfilter(getData, searchData);
 
       // setStudentlist(res.results);
       // setCount(res.count);
@@ -176,34 +182,42 @@ const UserList = () => {
 
   useEffect(() => {
     setLoader(true);
-    if (initialCall){
-
-      setLimit(1)
+    if (initialCall) {
+      setLimit(1);
       setTimeout(() => {
         StudentListApi();
       }, 2000);
     }
-     setInitialCall(false)
-
+    setInitialCall(false);
     setLoader(false);
-    console.log(Math.ceil(count/limit), 'count and limit')
-
+    handlePageLimit();
     setLoader(false);
   }, [limit]);
 
   const handleChange = (event) => {
-    setFilter_({ ...filter_, 'value': event.target.value });
+    setFilter_({ ...filter_, value: event.target.value });
   };
 
   const StudentListFilter = () => {
     if (!filter_.value) {
     } else {
-      API.post(`${base_url}api/user-filter/`, filter_)
+      const paload = {
+        value: filter_.value,
+        limit: limit,
+      };
+      setSearchData({ ...filter_, value: filter_.value });
+      API.post(`${base_url}api/user-filter/`, paload)
         .then((response) => {
           if (response && response?.data) {
             setStudentlist(response.data.results);
             setCount(response.data.count);
             setLoader(true);
+            setTimeout(() => {
+              setResetpagenumber(null);
+            }, 200);
+            setTimeout(() => {
+              setResetpagenumber(0);
+            }, 200);
           }
         })
         .catch((error) => {
@@ -217,10 +231,11 @@ const UserList = () => {
     setLoader(false);
     const element = document.getElementById("outlined-search");
     element.value = "";
-    setFilter_({ ...filter_, 'value': "" });
-    setLimit(1)
+    setFilter_({ ...filter_, value: "" });
+    setLimit(1);
     StudentListApi();
     setResetpagenumber(0);
+    setSearchData({ ...filter_, value: "" });
     setTimeout(() => {
       setResetpagenumber(null);
     }, 200);
@@ -462,7 +477,7 @@ const UserList = () => {
                 previousLabel={"Previous"}
                 nextLabel={"Next"}
                 breakLabel={"..."}
-                pageCount={limit ? Math.ceil(count/limit) :Math.ceil(count / 1)}
+                pageCount={Math.ceil(count / limit)}
                 marginPagesDisplayed={2}
                 onPageChange={handlePageClick}
                 containerClassName={"pagination justify-content-center"}
@@ -479,8 +494,8 @@ const UserList = () => {
               />
             </div>
 
-            <div className="justify-content-center">
-              <select
+            <div className="justify-content-end" style={{ width: "7%" }}>
+              {/* <select
                 name="limit"
                 id="limit"
                 style={{
@@ -492,13 +507,25 @@ const UserList = () => {
                   color: "white",
                 }}
                 value={limit}
-                onChange={(e) => handlePageLimit(e)}
+                onChange={(e) => setLimit(e.target.value)}
               >
                 <option value="1">1</option>
                 <option value="20">20</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
-              </select>
+              </select> */}
+{/* react bs  */}
+              <Form.Select
+                aria-label="Default select example"
+                size="sm"
+                value={limit}
+                onChange={(e) => setLimit(e.target.value)}
+              >
+                <option value="1">1</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </Form.Select>
             </div>
           </div>
         ) : (
