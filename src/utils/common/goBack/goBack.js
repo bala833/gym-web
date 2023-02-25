@@ -7,14 +7,13 @@ const BackButton = (path) => {
   let history = useHistory();
 
   const handleClick = () => {
-    console.log(path, "path")
     history.push(path?.path);
   };
 
   return (
     <div className="mt-3">
           <div className=" addUserButtonContainer my-1 mx-2 ">
-            <button class="backButton" onClick={handleClick}>
+            <button className="backButton" onClick={handleClick}>
               <KeyboardArrowLeftIcon />
               <span className="textStyle">
               GO Back

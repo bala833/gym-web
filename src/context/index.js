@@ -15,7 +15,6 @@ export class GymProvider extends Component {
 
   AuthToken = (token_) => {
     if (token_ !== null && token_ !== undefined) {
-      console.log("getted token");
       this.setState({
         token: token_,
         isAuth: true,
@@ -26,7 +25,6 @@ export class GymProvider extends Component {
   Auth = () => {
     let token_ = localStorage.getItem("token");
     if (token_ !== null && token_ !== undefined) {
-      console.log("getted token");
       this.setState({
         token: token_,
         isAuth: true,
@@ -62,7 +60,6 @@ export class GymProvider extends Component {
   }
 
   async componentDidMount() {
-    console.log("calling at initial load");
     this.Auth();
   }
   render() {

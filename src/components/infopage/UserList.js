@@ -29,6 +29,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import Loader from "../../common/loader/loader";
 import Form from "react-bootstrap/Form";
+import ActiveDeactiveUI from "../../utils/UICommon/UICommon";
 
 const columns = [
   // { id: "id", label: "ID", minWidth: 170 },
@@ -358,31 +359,18 @@ const UserList = () => {
                               <TableCell>{row.email}</TableCell>
                               <TableCell>{row.phone}</TableCell>
                               <TableCell>
-                                {row.is_verified ? "Yes" : "No"}
+                              <ActiveDeactiveUI
+                               condition={row.is_verified}
+                               dValue = 'Yes'
+                               dValue2= 'No'
+                               />
                               </TableCell>
                               <TableCell>
-                                <div
-                                  style={{
-                                    background: "#ffefef",
-                                    minHeight: "23px",
-                                    borderRadius: "22px",
-                                    width: "86px",
-                                  }}
-                                >
-                                  <span
-                                    style={{
-                                      height: "9px",
-                                      width: "9px",
-                                      backgroundColor: "green ",
-                                      borderRadius: "50%",
-                                      display: "inline-block",
-                                      margin: "7px 8px -1px 12px",
-                                    }}
-                                  ></span>
-                                  <span style={{ fontSize: "12px" }}>
-                                    {row.user.is_active ? "Active" : "Inactive"}
-                                  </span>
-                                </div>
+                              <ActiveDeactiveUI
+                               condition={row.user.is_active}
+                               dValue = 'Active'
+                               dValue2= 'Deactive'
+                               />
                               </TableCell>
                               <TableCell>
                                 {row.user.is_superuser
@@ -494,26 +482,7 @@ const UserList = () => {
               />
             </div>
 
-            <div className="justify-content-end" style={{ width: "7%" }}>
-              {/* <select
-                name="limit"
-                id="limit"
-                style={{
-                  minHeight: "32px !important",
-                  width: "67px",
-                  border: "1px",
-
-                  backgroundColor: "rgba(0, 0, 0, 0.87)",
-                  color: "white",
-                }}
-                value={limit}
-                onChange={(e) => setLimit(e.target.value)}
-              >
-                <option value="1">1</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select> */}
+            <div className="justify-content-end" style={{ width: "5%"}}>
 {/* react bs  */}
               <Form.Select
                 aria-label="Default select example"

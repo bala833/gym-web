@@ -52,7 +52,6 @@ const Profile = () => {
       if (response.data == "Invalid Token") {
         localStorage.removeItem("token");
         Logout();
-        console.log("Invalid Token", response?.data);
         history.push("/");
       }
     } else {

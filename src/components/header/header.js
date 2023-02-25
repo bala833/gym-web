@@ -78,12 +78,10 @@ const Header = () => {
       if (response.data == "Invalid Token") {
         localStorage.removeItem("token");
         Logout();
-        console.log("Invalid Token", response?.data);
         history.push("/");
       }
     } else {
       setUserDetail(response.data);
-      console.log(response.data, "oooooooooooooo");
     }
   };
 
@@ -97,7 +95,6 @@ const Header = () => {
       localStorage.removeItem("token");
       logout();
       ToastMessage("success", "Successfully Logged out");
-      console.log("Logout Successfull");
       history.push("/");
     } else {
       console.error("error LogoutUser");

@@ -144,8 +144,6 @@ const Otp = () => {
       );
       setLoader(false);
     }
-
-    console.log(payload);
   };
   useEffect(() => {
     if (submitOtpValidation(otp)) {
@@ -156,13 +154,13 @@ const Otp = () => {
   return (
     <div>
         <BackButton path='/' />
-      <div class="container">
+      <div className="container">
         <div className="fadbackground" />
-        <div class="row justify-content-md-center">
-          <div class="col-md-4 text-center box-width">
-            <div class="row">
-              <div class="col-sm-12 mt-custom mb-5 bgWhite">
-                <div class="title">Verify OTP {useEmail}</div>
+        <div className="row justify-content-md-center">
+          <div className="col-md-4 text-center box-width">
+            <div className="row">
+              <div className="col-sm-12 mt-custom mb-5 bgWhite">
+                <div className="title">Verify OTP {useEmail}</div>
         {loader ? 
 
                 <div
@@ -178,9 +176,9 @@ const Otp = () => {
                   />
                 </div>
 :
-                <form action="" class="mt-5">
+                <form action="" className="mt-5">
                   <input
-                    class="otp-input"
+                    className="otp-input"
                     value={otp.otp1}
                     name="otp1"
                     tabIndex="1"
@@ -191,7 +189,7 @@ const Otp = () => {
                     onKeyUp={inputfocus}
                   />
                   <input
-                    class="otp-input"
+                    className="otp-input"
                     value={otp.otp2}
                     name="otp2"
                     tabIndex="2"
@@ -202,7 +200,7 @@ const Otp = () => {
                     onKeyUp={inputfocus}
                   />
                   <input
-                    class="otp-input"
+                    className="otp-input"
                     value={otp.otp3}
                     name="otp3"
                     tabIndex="3"
@@ -213,7 +211,7 @@ const Otp = () => {
                     onKeyUp={inputfocus}
                   />
                   <input
-                    class="otp-input"
+                    className="otp-input"
                     value={otp.otp4}
                     name="otp4"
                     tabIndex="4"
@@ -224,7 +222,7 @@ const Otp = () => {
                     onKeyUp={inputfocus}
                   />
                   <input
-                    class="otp-input"
+                    className="otp-input"
                     value={otp.otp5}
                     name="otp5"
                     tabIndex="5"
@@ -235,7 +233,7 @@ const Otp = () => {
                     onKeyUp={inputfocus}
                   />
                   <input
-                    class="otp-input"
+                    className="otp-input"
                     value={otp.otp6}
                     name="otp6"
                     tabIndex="6"
@@ -247,9 +245,9 @@ const Otp = () => {
                   />
                 </form>
         }
-                <hr class="mt-4" />
+                <hr className="mt-4" />
                 <button
-                  class=" mt-4 mb-4 customBtn"
+                  className=" mt-4 mb-4 customBtn"
                   onClick={handleReset}
                   disabled={loader}
                 >

@@ -126,7 +126,6 @@ const Login = () => {
       .then(
         (res) => {
           if (res.status === 200 && res.data != "Incorrect Login credentials") {
-            console.log(res, "check the data comming ");
             localStorage.setItem("token", res.data.token);
             axiosInstance.defaults.headers["Authorization"] =
               "token " + localStorage.getItem("token");
@@ -136,7 +135,6 @@ const Login = () => {
             setTimeout(function () {
               history.push("/home");
             }, 2000);
-            console.log('running toast message')
             setLoginLoader(false)
             ToastMessage("success", "Successfully logged in");
           }

@@ -44,7 +44,6 @@ const UserCreation = () => {
   const [startvalidDate, setvalidDate] = useState(new Date());
   const [validfromError, setValidfromError] = useState(true);
   const [loader, setLoader] = useState(true);
-  console.log(startMinDate, "startMinDate");
   let history = useHistory();
   const { id: userid } = useParams();
 
@@ -148,7 +147,6 @@ const UserCreation = () => {
         setFrom_toerror(false);
         setDataValue({ ...dataValue, [name]: DateFormate });
         setvalidDate(value);
-        console.log(startMinDate, "startMinDate asdfasdfasf");
       }
     }
 
@@ -174,7 +172,6 @@ const UserCreation = () => {
     if (name == "from_to") {
       if (!DateFormate || DateFormate == "Invalid date") {
         let value = document.getElementById("from_to").value;
-        console.log(value, "aaaaaaaaaaaaaaaaaaaaa");
         if (!value) {
           setFrom_toerror(true);
           return false;
@@ -188,7 +185,6 @@ const UserCreation = () => {
     if (name == "valid_to") {
       if (!DateFormate || DateFormate == "Invalid date") {
         let value = document.getElementById("valid_to").value;
-        console.log(value, "aaaaaaaaaaaaaaaaaaaaa");
         if (!value) {
           setValid_toerror(true);
           return false;
@@ -262,31 +258,21 @@ const UserCreation = () => {
       role_type: dataValue.role_type,
       userid: userid,
     };
-    console.log(payload);
 
     const response = await UserRegistration(payload);
     if (userid > 0) {
       if (response?.status === 200 && response?.data) {
         history.push("/user");
-        console.log("user created successfully");
       } else {
         console.error(response.data, "error HandleSubmit");
       }
     } else {
       if (response?.status === 201 && response?.data) {
         history.push("/user");
-        console.log("user created successfully");
       } else {
         console.error(response.data, "error HandleSubmit");
       }
     }
-    // const response = await UserRegistration(payload);
-    // if (response?.status === StatusCode_ && response?.data) {
-    //   history.push("/user-list");
-    //   console.log("user created successfully");
-    // } else {
-    //   console.error(response.data, "error HandleSubmit");
-    // }
   };
 
   const GetUser = async () => {
@@ -532,7 +518,7 @@ const UserCreation = () => {
                       <option
                         className="dropdown-item"
                         value=""
-                        selected
+                        defaultValue
                         disabled
                       >
                         Select Role

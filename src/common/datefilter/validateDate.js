@@ -5,7 +5,6 @@ export function DateFilter(d2) {
   var d1 =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
-  console.log(d1, d2, "check date format");
   var dateFirst = d1.split("-");
   var dateSecond = d2.split("-");
   var from_to = new Date(dateFirst[0], dateFirst[1], dateFirst[2]); //Year, Month, Date
