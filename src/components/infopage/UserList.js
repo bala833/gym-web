@@ -32,8 +32,6 @@ import Form from "react-bootstrap/Form";
 import ActiveDeactiveUI from "../../utils/UICommon/UICommon";
 
 const columns = [
-  // { id: "id", label: "ID", minWidth: 170 },
-  // { id: "UserName", label: "UserName", minWidth: 170 },
   { id: "Email", label: "Email", minWidth: 170 },
   { id: "Phone", label: "Phone", minWidth: 170 },
   { id: "Varified", label: "Varified", minWidth: 170 },
