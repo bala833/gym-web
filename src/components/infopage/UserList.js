@@ -25,11 +25,13 @@ import { base_url } from "../../Api/services";
 import Typography from "@material-ui/core/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
+
 import Loader from "../../common/loader/loader";
 import Form from "react-bootstrap/Form";
 import ActiveDeactiveUI from "../../utils/UICommon/UICommon";
+import ToggleDropdown from "../../utils/DropDown/toggleDropdown";
+import {actionMenu} from "../../utils/common/userData"
 
 const columns = [
   { id: "Email", label: "Email", minWidth: 170 },
@@ -40,18 +42,6 @@ const columns = [
   { id: "Action", label: "Action", minWidth: 170 },
 ];
 
-const actionMenu = [
-  {
-    title: "edit",
-    path: "/user",
-    icon: <ModeEditOutlineTwoToneIcon fontSize="small" />,
-  },
-  {
-    title: "deactivate",
-    path: "",
-    icon: <ModeEditOutlineTwoToneIcon fontSize="small" />,
-  },
-];
 const UserList = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
@@ -59,11 +49,13 @@ const UserList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(1);
   const [studentList, setStudentlist] = useState([]);
   const [resetpagenumber, setResetpagenumber] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  // const [toggleDropdown, setToggleDropdown] = useState(null);
   const [loader, setLoader] = useState(false);
   const [limit, setLimit] = useState(1);
   const [payload, setPayload] = useState([]);
   const [initialCall, setInitialCall] = useState(true);
+
+
 
   const filter_initial_value = {
     value: "",
@@ -74,14 +66,6 @@ const UserList = () => {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   const handlePageLimit = async () => {
@@ -243,7 +227,6 @@ const UserList = () => {
     }, 200);
     setLoader(true);
   };
-
   return (
     <>
       <Header />
@@ -357,18 +340,18 @@ const UserList = () => {
                               <TableCell>{row.email}</TableCell>
                               <TableCell>{row.phone}</TableCell>
                               <TableCell>
-                              <ActiveDeactiveUI
-                               condition={row.is_verified}
-                               dValue = 'Yes'
-                               dValue2= 'No'
-                               />
+                                <ActiveDeactiveUI
+                                  condition={row.is_verified}
+                                  dValue="Yes"
+                                  dValue2="No"
+                                />
                               </TableCell>
                               <TableCell>
-                              <ActiveDeactiveUI
-                               condition={row.user.is_active}
-                               dValue = 'Active'
-                               dValue2= 'Deactive'
-                               />
+                                <ActiveDeactiveUI
+                                  condition={row.user.is_active}
+                                  dValue="Active"
+                                  dValue2="Deactive"
+                                />
                               </TableCell>
                               <TableCell>
                                 {row.user.is_superuser
@@ -376,56 +359,7 @@ const UserList = () => {
                                   : "Customer"}
                               </TableCell>
                               <TableCell>
-                                <div style={{ display: "flex" }} key={row.id}>
-                                  <IconButton sx={{ p: 0 }}>
-                                    <MoreHorizIcon
-                                      onClick={handleOpenUserMenu}
-                                    />
-                                  </IconButton>
-                                  <Menu
-                                    sx={{ mt: "20px", ml: "20px" }}
-                                    id="menu-appbar"
-                                    anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                      vertical: "top",
-                                      horizontal: "right",
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                      vertical: "top",
-                                      horizontal: "right",
-                                    }}
-                                    open={Boolean(anchorElUser)}
-                                    onClose={handleCloseUserMenu}
-                                  >
-                                    {actionMenu.map((item) => {
-                                      return (
-                                        <MenuItem
-                                          key={item.title}
-                                          onClick={handleCloseUserMenu}
-                                        >
-                                          <Typography textalign="center">
-                                            {" "}
-                                            <Link
-                                              to={`${item.path}/${row.user.id}`}
-                                              style={{ color: "black" }}
-                                              key={row.user.id}
-                                            >
-                                              <div className="justify-content-between">
-                                                <span>{item.icon}</span>
-                                                <span
-                                                  style={{ marginLeft: "35px" }}
-                                                >
-                                                  {item.title}
-                                                </span>
-                                              </div>
-                                            </Link>
-                                          </Typography>
-                                        </MenuItem>
-                                      );
-                                    })}
-                                  </Menu>
-                                </div>
+                                <ToggleDropdown row={row} menus={actionMenu} />
                               </TableCell>
                             </>
                           )}
@@ -480,8 +414,8 @@ const UserList = () => {
               />
             </div>
 
-            <div className="justify-content-end" style={{ width: "5%"}}>
-{/* react bs  */}
+            <div className="justify-content-end" style={{ width: "5%" }}>
+              {/* react bs  */}
               <Form.Select
                 aria-label="Default select example"
                 size="sm"
