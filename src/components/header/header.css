@@ -67,3 +67,8 @@
   position: absolute;
   overflow: hidden auto;
 }
+
+
+.css-r6ewbb-MuiToolbar-root {
+min-height: 64px !important;
+}

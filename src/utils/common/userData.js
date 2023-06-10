@@ -12,7 +12,7 @@ export const actionMenu = [
       icon: <ModeEditOutlineTwoToneIcon fontSize="small" />,
     },
     {
-      title: "clone",
+      title: "delete",
       path: "",
       icon: <ModeEditOutlineTwoToneIcon fontSize="small" />,
     },
