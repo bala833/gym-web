@@ -11,6 +11,7 @@ export class GymProvider extends Component {
     token: "",
     selectedMenu: "home",
     ContMenuColor: "home",
+    baseURL : 'http://127.0.0.1:8000/'
   };
 
   AuthToken = (token_) => {
@@ -62,6 +63,8 @@ export class GymProvider extends Component {
   async componentDidMount() {
     this.Auth();
   }
+
+
   render() {
     return (
       <GlobalGymInfo.Provider
@@ -72,8 +75,7 @@ export class GymProvider extends Component {
           AuthToken: this.AuthToken,
           handlemenuSelected: this.handlemenuSelected,
           handleHover: this.handleHover,
-          handleMenuColor: this.handleMenuColor,
-          
+          handleMenuColor: this.handleMenuColor,          
         }}
       >
         {this.props.children}

@@ -29,4 +29,15 @@
   white-space: nowrap;
 }
 
+.detailWrapper{
+  border-bottom: 3px solid rgb(224, 221, 221);
+  margin-left: 13px;
+}
+.detailData {
+  white-space: nowrap;
+  font-size: 15px;
+  font-family: monospace;
+  margin: 13px 13px 0px 1px;
+}
+
 

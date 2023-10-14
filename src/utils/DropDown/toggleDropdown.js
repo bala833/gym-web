@@ -40,7 +40,6 @@ export default function ToggleDropdown(props) {
     GetUserDetail();
   }, []);
 
-  console.log(userDetail);
 
   return (
     <div style={{ display: "flex" }} key={row.id}>

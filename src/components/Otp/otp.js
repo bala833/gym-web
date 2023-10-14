@@ -129,7 +129,6 @@ const Otp = () => {
       otp: otpCode,
     };
     const response = await otpVerify(payload);
-    console.log(response, "response");
     if (response.data.data && response.data.status === 200) {
       ToastMessage("success", "Account is verified successfully");
       setLoader(false);

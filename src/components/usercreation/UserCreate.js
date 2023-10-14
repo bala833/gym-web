@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
@@ -16,6 +16,7 @@ import { DateFilter } from "../../common/datefilter/validateDate";
 import { ToastMessage } from "../../utils/toastMessage/toast";
 import Loader from "../../common/loader/loader";
 import BackButton from "../../utils/common/goBack/goBack";
+import { GlobalGymInfo } from "../../context";
 
 const UserCreation = () => {
   const form_initial_value = {
@@ -30,7 +31,9 @@ const UserCreation = () => {
     password: "",
     role_type: "",
     id: 0,
+    // pic : null
   };
+  const { baseURL} = useContext(GlobalGymInfo);
   const [dataValue, setDataValue] = useState(form_initial_value);
   const [from_toerror, setFrom_toerror] = useState(false);
   const [valid_toerror, setValid_toerror] = useState(false);
@@ -44,6 +47,7 @@ const UserCreation = () => {
   const [startvalidDate, setvalidDate] = useState(new Date());
   const [validfromError, setValidfromError] = useState(true);
   const [loader, setLoader] = useState(true);
+  const [image, setImage] = useState();
   let history = useHistory();
   const { id: userid } = useParams();
 
@@ -257,9 +261,14 @@ const UserCreation = () => {
       valid_to: moment(dataValue.valid_to).format("YYYY-MM-DD"),
       role_type: dataValue.role_type,
       userid: userid,
+      file: image,
     };
 
-    const response = await UserRegistration(payload);
+    const formData = new FormData();
+
+    formData.append("file", image);
+    formData.append("userData", JSON.stringify(payload));
+    const response = await UserRegistration(formData);
     if (userid > 0) {
       if (response?.status === 200 && response?.data) {
         history.push("/user");
@@ -298,6 +307,14 @@ const UserCreation = () => {
     }
   };
 
+  const handleUploadImg = (e) => {
+    // src={URL.createobjectURL(image)}
+    const fileData = e.target.files[0];
+    // const reader = new FormData();
+    // reader.append('file', e.target.files,e.target.files.name,{type : 'multipart/form-data'});
+    setImage(e.target.files[0]);
+  };
+
   useEffect(() => {
     if (userid > 0) {
       GetUser();
@@ -314,22 +331,22 @@ const UserCreation = () => {
   }, []);
 
   if (loader) {
-    return <Loader height='100px' width='100px'/>;
+    return <Loader height="100px" width="100px" />;
   } else {
     return (
       <>
-       <div className="mb-5">
-
-        <BackButton path="/user" />
-        <div className="d-flex justify-content-center mt-1">
-          <div className="custom-header">User Detail</div>
+        <div className="mb-5">
+          <BackButton path="/user" />
+          <div className="d-flex justify-content-center mt-1">
+            <div className="custom-header">User Detail</div>
+          </div>
         </div>
-       </div>
         <div className="container custom-text-family">
           <div className="row">
             <form className="justify-content-center">
               <div className="row">
                 <div className="col-md-6">
+                  {/* {image && <img src={URL.createobjectURL(image)} alt="bala" />} */}
                   <div className="form-group">
                     <label className="custom-label">First Name</label>
                     <input
@@ -604,6 +621,17 @@ const UserCreation = () => {
                       Valid To is required.
                     </span>
                   )}
+                </div>
+
+                {/* ------ */}
+                <div className="col-md-3 justify-content-center">
+                 {dataValue?.picture && <img src={dataValue?.picture} alt='User-imgae' width='34px' height='34'/>}
+                  <input
+                    type="file"
+                    name="file"
+                    // value={dataValue?.picture}
+                    onChange={(e) => handleUploadImg(e)}
+                  />
                 </div>
               </div>
             </form>

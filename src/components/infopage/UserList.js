@@ -165,17 +165,22 @@ const UserList = () => {
 
   useEffect(() => {
     setLoader(true);
-    if (initialCall) {
-      setLimit(1);
-      setTimeout(() => {
-        StudentListApi();
-      }, 2000);
-    }
-    setInitialCall(false);
-    setLoader(false);
     handlePageLimit();
     setLoader(false);
   }, [limit]);
+
+  // useEffect(() => {
+  //   setLoader(true);
+  //   if (initialCall) {
+  //     setLimit(1);
+  //     setTimeout(() => {
+  //       StudentListApi();
+  //       console.log('calling here')
+  //     }, 2000);
+  //   }
+  //   setInitialCall(false);
+  //   setLoader(false);
+  // },[])
 
   const handleChange = (event) => {
     setFilter_({ ...filter_, value: event.target.value });
@@ -408,7 +413,7 @@ const UserList = () => {
                 nextClassName={"nextPreviousbtn"}
                 nextLinkClassName={"page-link"}
                 breakClassName={"page-item"}
-                breakLinkClassName={"page-item"}
+                breakLinkClassName={"page-item breakLabelWrapper"}
                 activeClassName={"active"}
                 forcePage={resetpagenumber}
               />

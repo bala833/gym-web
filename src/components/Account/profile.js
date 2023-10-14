@@ -95,7 +95,7 @@ const Profile = () => {
                 width: "50%",
               }}
             >
-              <input
+              {/* <input
                 type="text"
                 className="profile-custom-input"
                 id="first_name"
@@ -106,7 +106,12 @@ const Profile = () => {
                 style={{
                   width: "50%",
                 }}
-              />
+              /> */}
+
+              <div className="justify-content-center d-flex detailWrapper">
+                <div className="detailData">First Name :</div>
+                <div className="detailData pl-1">{userDetail?.first_name}</div>
+              </div>
             </div>
             <div
               className="col-md-6"
@@ -116,7 +121,7 @@ const Profile = () => {
                 marginLeft: "5px",
               }}
             >
-              <input
+              {/* <input
                 type="text"
                 className="profile-custom-input"
                 id="last_name"
@@ -127,7 +132,12 @@ const Profile = () => {
                 style={{
                   width: "50%",
                 }}
-              />
+              /> */}
+
+              <div className="justify-content-center d-flex detailWrapper">
+                <div className="detailData">Last Name :</div>
+                <div className="detailData pl-1">{userDetail?.last_name}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -141,7 +151,7 @@ const Profile = () => {
                 width: "50%",
               }}
             >
-              <input
+              {/* <input
                 type="text"
                 className="profile-custom-input"
                 id="email"
@@ -152,7 +162,11 @@ const Profile = () => {
                 style={{
                   width: "50%",
                 }}
-              />
+              /> */}
+              <div className="justify-content-center d-flex detailWrapper">
+                <div className="detailData">Gmail :</div>
+                <div className="detailData pl-1">{userDetail?.email}</div>
+              </div>
             </div>
             <div
               className="col-md-6"
@@ -162,7 +176,7 @@ const Profile = () => {
                 marginLeft: "5px",
               }}
             >
-              <input
+              {/* <input
                 type="text"
                 className="profile-custom-input"
                 id="phone"
@@ -173,7 +187,11 @@ const Profile = () => {
                 style={{
                   width: "50%",
                 }}
-              />
+              /> */}
+              <div className="justify-content-center d-flex detailWrapper">
+                <div className="detailData">Phone no. :</div>
+                <div className="detailData pl-1">{userDetail?.phone}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -187,7 +205,7 @@ const Profile = () => {
                 width: "50%",
               }}
             >
-              <input
+              {/* <input
                 type="text"
                 className="profile-custom-input"
                 id="from_date"
@@ -203,8 +221,56 @@ const Profile = () => {
                 style={{
                   width: "50%",
                 }}
-              />
+              /> */}
+
+              <div className="justify-content-center d-flex detailWrapper">
+                <div className="detailData">Valid from :</div>
+                <div className="detailData pl-1">
+                  {userDetail?.from_to
+                    ? moment(userDetail?.from_to).format("DD-MM-YYYY")
+                    : ""}
+                </div>
+              </div>
             </div>
+            {userDetail?.valid_to ? (
+              <div
+                className="col-md-6"
+                style={{
+                  display: "flex",
+                  width: "50%",
+                  marginLeft: "5px",
+                }}
+              >
+                <div className="justify-content-center d-flex detailWrapper">
+                  <div className="detailData">Valid to :</div>
+                  <div className="detailData pl-1">
+                    {userDetail?.valid_to
+                      ? moment(userDetail?.valid_to).format("DD-MM-YYYY")
+                      : ""}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div
+                className="col-md-6"
+                style={{
+                  display: "flex",
+                  width: "50%",
+                  marginLeft: "5px",
+                }}
+              >
+                <div className="justify-content-center d-flex detailWrapper">
+                  <div className="detailData">Role :</div>
+                  <div className="detailData pl-1">{userDetail?.role_type}</div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+
+       {userDetail?.valid_to && <div className="mt-3">
+          <div className=" d-flex col-md-12">
             <div
               className="col-md-6"
               style={{
@@ -213,28 +279,15 @@ const Profile = () => {
                 marginLeft: "5px",
               }}
             >
-              <input
-                type="text"
-                className="profile-custom-input"
-                id="valid_date"
-                name="valid_date"
-                value={`Valid To : ${
-                  userDetail?.valid_to
-                    ? moment(userDetail?.valid_to).format("DD-MM-YYYY")
-                    : ""
-                }`}
-                format="dd-MM-yyyy"
-                disabled
-                style={{
-                  width: "50%",
-                }}
-              />
+              <div className="justify-content-center d-flex detailWrapper">
+                <div className="detailData">Role :</div>
+                <div className="detailData pl-1">{userDetail?.role_type}</div>
+              </div>
             </div>
           </div>
-        </div>
+        </div>}
 
-        <div className="row mt-3 ">
-          {/* user image */}
+        {/* <div className="row mt-3 ">
           <div className="d-flex justify-content-center">
             <select
               id="role_dropdown"
@@ -255,7 +308,7 @@ const Profile = () => {
               </option>
             </select>
           </div>
-        </div>
+        </div> */}
 
         <div className="mt-3">
           <div className=" row">

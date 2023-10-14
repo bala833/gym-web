@@ -14,7 +14,6 @@ export default function ActiveDeactiveUI(props) {
   },[condition, dValue, dValue2])
 
 
-  console.log(condition);
   return (
     <div
       style={{

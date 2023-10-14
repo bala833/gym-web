@@ -38,3 +38,10 @@
   padding-left: 16px !important;
   line-height: 1.5rem !important;
 }
+
+.breakLabelWrapper{
+  font-size: 24px;
+font-weight: bold;
+text-decoration: none;
+color: #351f3c;
+}

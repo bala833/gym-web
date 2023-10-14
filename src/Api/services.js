@@ -42,7 +42,14 @@ export const Resend = async (payload) => {
 
 export const UserRegistration = async (payload) => {
   try {
-    return await axios.post(`${base_url}api/userprofile/register/`, payload);
+    return await axios.post(`${base_url}api/userprofile/register/`, payload, 
+    // {
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // }
+    );
   } catch (err) {
     return err.response;
   }

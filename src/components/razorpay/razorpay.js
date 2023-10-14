@@ -50,8 +50,6 @@ function Razorpay() {
       currency = null,
       orderId = null,
     } = result.data;
-    console.log(result.data);
-    console.log(typeof result.data.amount);
 
     const options = {
       key: merchantId,
